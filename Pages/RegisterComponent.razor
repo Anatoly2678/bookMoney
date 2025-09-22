@@ -1,0 +1,85 @@
+﻿@page "/registration"
+@layout MainLayout
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@inject IJSRuntime JSRuntime
+
+<style>
+    .registration-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+    }
+
+        .registration-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 10px;
+    }
+</style>
+
+<PageTitle>Регистрация</PageTitle>
+
+<div class="container-fluid vh-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-md-5 col-lg-4">
+            <div class="card shadow registration-card">
+                <div class="card-body p-4">
+                    <h2 class="text-center mb-4">Регистрация</h2>
+                    
+                    <EditForm Model="@registrationModel" OnValidSubmit="@HandleRegistration">
+                        <DataAnnotationsValidator />
+                        
+                        <!-- Номер телефона -->
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Номер телефона</label>
+                            <InputText @bind-Value="registrationModel.PhoneNumber" 
+                                      class="form-control" 
+                                      id="phone"
+                                      placeholder="+7(XXX)XXX-XX-XX" />
+                            <ValidationMessage For="@(() => registrationModel.PhoneNumber)" />
+                        </div>
+
+                        <!-- Подсказка -->
+                        <div class="alert alert-info">
+                            <small>
+                                Для продолжения регистрации введите свой номер телефона. Указанный вами номер телефона является верификационным, и на него будут отправляться подтверждающие СМС. Также он является логином в личном кабинете.
+                            </small>
+                        </div>
+
+                        <!-- Кнопка регистрации -->
+                        <button type="submit" class="btn btn-primary w-100 mb-3">Зарегистрироваться</button>
+                    </EditForm>
+
+                    <!-- Ссылка на вход -->
+                    <div class="text-center">
+                        <span>Уже есть аккаунт? </span>
+                        <a href="/login">Войти</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private RegistrationModel registrationModel = new();
+
+    private async Task HandleRegistration()
+    {
+        // Здесь должна быть ваша логика регистрации
+        // Например, отправка номера телефона для верификации
+        await JSRuntime.InvokeVoidAsync("alert", $"Регистрация для: {registrationModel.PhoneNumber}");
+    }
+
+    public class RegistrationModel
+    {
+        [Required(ErrorMessage = "Введите номер телефона")]
+        [Phone(ErrorMessage = "Неверный формат номера")]
+        public string PhoneNumber { get; set; }
+    }
+}

@@ -1,0 +1,83 @@
+﻿@page "/login"
+@layout MainLayout
+@using Microsoft.AspNetCore.Components.Forms
+@using System.ComponentModel.DataAnnotations
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Вход в систему</PageTitle>
+
+<div class="container-fluid vh-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-md-4 col-sm-8">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4">Вход в систему</h2>
+
+                    <EditForm Model="@loginModel" OnValidSubmit="@HandleLogin">
+                        <DataAnnotationsValidator />
+
+                        <!-- Номер телефона -->
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Номер телефона</label>
+                            <InputText @bind-Value="loginModel.PhoneNumber"
+                                       class="form-control"
+                                       id="phone"
+                                       placeholder="+7(XXX)XXX-XX-XX" />
+                            <ValidationMessage For="@(() => loginModel.PhoneNumber)" />
+                        </div>
+
+                        <!-- Пароль -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Пароль</label>
+                            <InputText @bind-Value="loginModel.Password"
+                                       type="password"
+                                       class="form-control"
+                                       id="password" />
+                            <ValidationMessage For="@(() => loginModel.Password)" />
+                        </div>
+
+                        <!-- Запомнить меня -->
+                        <div class="mb-3 form-check">
+                            <InputCheckbox @bind-Value="loginModel.RememberMe"
+                                           class="form-check-input"
+                                           id="rememberMe" />
+                            <label class="form-check-label" for="rememberMe">Запомнить меня</label>
+                        </div>
+
+                        <!-- Кнопка входа -->
+                        <button type="submit" class="btn btn-primary w-100 mb-3">Войти</button>
+                    </EditForm>
+
+                    <!-- Дополнительные ссылки -->
+                    <div class="text-center">
+                        <a href="#" class="d-block mb-2">Восстановить пароль</a>
+                        <a href="#" class="d-block">Новая регистрация</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private LoginModel loginModel = new();
+
+    private async Task HandleLogin()
+    {
+        // Здесь должна быть ваша логика входа
+        await JSRuntime.InvokeVoidAsync("alert", $"Вход для: {loginModel.PhoneNumber}");
+    }
+
+    public class LoginModel
+    {
+        [Required(ErrorMessage = "Введите номер телефона")]
+        [Phone(ErrorMessage = "Неверный формат номера")]
+        public string PhoneNumber { get; set; }
+
+        [Required(ErrorMessage = "Введите пароль")]
+        [MinLength(6, ErrorMessage = "Пароль слишком короткий")]
+        public string Password { get; set; }
+
+        public bool RememberMe { get; set; }
+    }
+}

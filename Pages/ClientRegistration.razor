@@ -1,0 +1,567 @@
+﻿@page "/client-registration"
+@layout MainLayout
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@inject IJSRuntime JSRuntime
+
+<style>
+
+    .step-indicator {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+}
+
+.step-indicator.active {
+    background-color: #0d6efd;
+    color: white;
+    transform: scale(1.1);
+}
+
+.step-indicator.completed {
+    background-color: #198754;
+    color: white;
+}
+
+.step-number {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.step-check {
+    display: none;
+    font-size: 1.2rem;
+}
+
+.step-indicator.completed .step-number {
+    display: none;
+}
+
+.step-indicator.completed .step-check {
+    display: block;
+}
+
+.step-title {
+    font-weight: 500;
+    color: #6c757d;
+}
+
+.step-indicator.active + .step-title,
+.step-indicator.completed + .step-title {
+    color: #0d6efd;
+    font-weight: 600;
+}
+
+.step-content {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+
+.form-control:focus, .form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.btn {
+    border-radius: 6px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+}
+</style>
+
+<PageTitle>Анкета клиента</PageTitle>
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="h4 mb-0">
+                            <i class="fas fa-user-edit me-2"></i>Анкета клиента
+                        </h2>
+                        <span class="badge bg-light text-primary fs-6">Шаг @currentStep из 3</span>
+                    </div>
+                </div>
+                
+                <!-- Индикатор прогресса -->
+                <div class="card-body border-bottom">
+                    <div class="progress mb-3" style="height: 8px;">
+                        <div class="progress-bar bg-success" role="progressbar" 
+                             style="width: @(currentStep * 33.33)%;" 
+                             aria-valuenow="@(currentStep * 33.33)" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100"></div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        @foreach (var step in registrationSteps)
+                        {
+                            <div class="text-center">
+                                <div class="step-indicator @(step.Number == currentStep ? "active" : step.Number < currentStep ? "completed" : "")">
+                                    <span class="step-number">@step.Number</span>
+                                    <i class="step-check fas fa-check"></i>
+                                </div>
+                                <small class="step-title mt-1 d-block">@step.Title</small>
+                            </div>
+                        }
+                    </div>
+                </div>
+                
+                <div class="card-body p-4">
+                    <EditForm Model="@clientModel" OnValidSubmit="@HandleSubmit">
+                        <DataAnnotationsValidator />
+                        
+                        <!-- Шаг 1: ФИО -->
+                        @if (currentStep == 1)
+                        {
+                            <div class="step-content">
+                                <h3 class="h5 mb-4 text-center">
+                                    <i class="fas fa-user me-2 text-primary"></i>Личные данные
+                                </h3>
+                                
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="lastName" class="form-label fw-semibold">Фамилия *</label>
+                                        <InputText @bind-Value="clientModel.LastName" 
+                                                   class="form-control" 
+                                                   id="lastName"
+                                                   placeholder="Введите фамилию" />
+                                        <ValidationMessage For="@(() => clientModel.LastName)" />
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-3">
+                                        <label for="firstName" class="form-label fw-semibold">Имя *</label>
+                                        <InputText @bind-Value="clientModel.FirstName" 
+                                                   class="form-control" 
+                                                   id="firstName"
+                                                   placeholder="Введите имя" />
+                                        <ValidationMessage For="@(() => clientModel.FirstName)" />
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-3">
+                                        <label for="middleName" class="form-label fw-semibold">Отчество</label>
+                                        <InputText @bind-Value="clientModel.MiddleName" 
+                                                   class="form-control" 
+                                                   id="middleName"
+                                                   placeholder="Введите отчество" />
+                                        <ValidationMessage For="@(() => clientModel.MiddleName)" />
+                                    </div>
+                                </div>
+                                
+                                <div class="alert alert-info bg-light border-0 mt-3">
+                                    <div class="d-flex">
+                                        <div class="me-3 text-info">
+                                            <i class="fas fa-info-circle fa-lg"></i>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted">
+                                                Пожалуйста, укажите ваши реальные ФИО как в паспорте. 
+                                                Это необходимо для корректного оформления документов.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        
+                        <!-- Шаг 2: Адреса -->
+                        @if (currentStep == 2)
+                        {
+                            <div class="step-content">
+                                <h3 class="h5 mb-4 text-center">
+                                    <i class="fas fa-home me-2 text-primary"></i>Адресная информация
+                                </h3>
+                                
+                                <div class="mb-4">
+                                    <label class="form-label fw-semibold">Адрес регистрации *</label>
+                                    <div class="row g-2">
+                                        <div class="col-md-3">
+                                            <InputText @bind-Value="clientModel.RegistrationZipCode" 
+                                                       class="form-control" 
+                                                       placeholder="Индекс" />
+                                            <ValidationMessage For="@(() => clientModel.RegistrationZipCode)" />
+                                        </div>
+                                        <div class="col-md-9">
+                                            <InputText @bind-Value="clientModel.RegistrationRegion" 
+                                                       class="form-control" 
+                                                       placeholder="Регион, область" />
+                                            <ValidationMessage For="@(() => clientModel.RegistrationRegion)" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <InputText @bind-Value="clientModel.RegistrationCity" 
+                                                       class="form-control" 
+                                                       placeholder="Город, населенный пункт" />
+                                            <ValidationMessage For="@(() => clientModel.RegistrationCity)" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <InputText @bind-Value="clientModel.RegistrationStreet" 
+                                                       class="form-control" 
+                                                       placeholder="Улица" />
+                                            <ValidationMessage For="@(() => clientModel.RegistrationStreet)" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <InputText @bind-Value="clientModel.RegistrationHouse" 
+                                                       class="form-control" 
+                                                       placeholder="Дом" />
+                                            <ValidationMessage For="@(() => clientModel.RegistrationHouse)" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <InputText @bind-Value="clientModel.RegistrationApartment" 
+                                                       class="form-control" 
+                                                       placeholder="Квартира" />
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-check mb-3">
+                                    <InputCheckbox @bind-Value="clientModel.SameAsRegistration" 
+                                                   class="form-check-input" 
+                                                   id="sameAddress" />
+                                    <label class="form-check-label" for="sameAddress">
+                                        Фактический адрес совпадает с адресом регистрации
+                                    </label>
+                                </div>
+                                
+                                @if (!clientModel.SameAsRegistration)
+                                {
+                                    <div class="mb-4">
+                                        <label class="form-label fw-semibold">Фактический адрес проживания *</label>
+                                        <div class="row g-2">
+                                            <div class="col-md-3">
+                                                <InputText @bind-Value="clientModel.ActualZipCode" 
+                                                           class="form-control" 
+                                                           placeholder="Индекс" />
+                                                <ValidationMessage For="@(() => clientModel.ActualZipCode)" />
+                                            </div>
+                                            <div class="col-md-9">
+                                                <InputText @bind-Value="clientModel.ActualRegion" 
+                                                           class="form-control" 
+                                                           placeholder="Регион, область" />
+                                                <ValidationMessage For="@(() => clientModel.ActualRegion)" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <InputText @bind-Value="clientModel.ActualCity" 
+                                                           class="form-control" 
+                                                           placeholder="Город, населенный пункт" />
+                                                <ValidationMessage For="@(() => clientModel.ActualCity)" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <InputText @bind-Value="clientModel.ActualStreet" 
+                                                           class="form-control" 
+                                                           placeholder="Улица" />
+                                                <ValidationMessage For="@(() => clientModel.ActualStreet)" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <InputText @bind-Value="clientModel.ActualHouse" 
+                                                           class="form-control" 
+                                                           placeholder="Дом" />
+                                                <ValidationMessage For="@(() => clientModel.ActualHouse)" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <InputText @bind-Value="clientModel.ActualApartment" 
+                                                           class="form-control" 
+                                                           placeholder="Квартира" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        
+                        <!-- Шаг 3: Дополнительные поля -->
+                        @if (currentStep == 3)
+                        {
+                            <div class="step-content">
+                                <h3 class="h5 mb-4 text-center">
+                                    <i class="fas fa-info-circle me-2 text-primary"></i>Дополнительная информация
+                                </h3>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label fw-semibold">Электронная почта</label>
+                                        <InputText @bind-Value="clientModel.Email" 
+                                                   class="form-control" 
+                                                   id="email"
+                                                   placeholder="example@mail.com" />
+                                        <ValidationMessage For="@(() => clientModel.Email)" />
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phone" class="form-label fw-semibold">Контактный телефон *</label>
+                                        <InputText @bind-Value="clientModel.Phone" 
+                                                   class="form-control" 
+                                                   id="phone"
+                                                   placeholder="+7 (___) ___-__-__" />
+                                        <ValidationMessage For="@(() => clientModel.Phone)" />
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="source" class="form-label fw-semibold">Как вы о нас узнали?</label>
+                                    <InputSelect @bind-Value="clientModel.Source" class="form-select" id="source">
+                                        <option value="">Выберите вариант</option>
+                                        <option value="friends">От друзей/знакомых</option>
+                                        <option value="internet">Интернет-поиск</option>
+                                        <option value="social">Социальные сети</option>
+                                        <option value="advertisement">Реклама</option>
+                                        <option value="other">Другое</option>
+                                    </InputSelect>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="comments" class="form-label fw-semibold">Комментарии или пожелания</label>
+                                    <InputTextArea @bind-Value="clientModel.Comments" 
+                                                   class="form-control" 
+                                                   id="comments"
+                                                   rows="3"
+                                                   placeholder="Ваши комментарии..."></InputTextArea>
+                                </div>
+                                
+                                <div class="form-check mb-4">
+                                    <InputCheckbox @bind-Value="clientModel.Agreement" 
+                                                   class="form-check-input" 
+                                                   id="agreement" />
+                                    <label class="form-check-label" for="agreement">
+                                        Я даю согласие на обработку персональных данных *
+                                    </label>
+                                    <ValidationMessage For="@(() => clientModel.Agreement)" />
+                                </div>
+                                
+                                <!-- Сводка данных -->
+                                <div class="card bg-light mt-4">
+                                    <div class="card-header">
+                                        <h4 class="h6 mb-0">Проверьте введенные данные</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row small">
+                                            <div class="col-md-6">
+                                                <strong>ФИО:</strong> @clientModel.LastName @clientModel.FirstName @clientModel.MiddleName
+                                            </div>
+                                            <div class="col-md-6">
+                                                <strong>Телефон:</strong> @clientModel.Phone
+                                            </div>
+                                            <div class="col-md-12 mt-2">
+                                                <strong>Адрес регистрации:</strong> 
+                                                @clientModel.RegistrationZipCode, 
+                                                @clientModel.RegistrationRegion, 
+                                                @clientModel.RegistrationCity, 
+                                                ул. @clientModel.RegistrationStreet, 
+                                                д. @clientModel.RegistrationHouse, 
+                                                кв. @clientModel.RegistrationApartment
+                                            </div>
+                                            @if (!clientModel.SameAsRegistration)
+                                            {
+                                                <div class="col-md-12 mt-2">
+                                                    <strong>Фактический адрес:</strong> 
+                                                    @clientModel.ActualZipCode, 
+                                                    @clientModel.ActualRegion, 
+                                                    @clientModel.ActualCity, 
+                                                    ул. @clientModel.ActualStreet, 
+                                                    д. @clientModel.ActualHouse, 
+                                                    кв. @clientModel.ActualApartment
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        
+                        <!-- Навигация -->
+                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                            @if (currentStep > 1)
+                            {
+                                <button type="button" class="btn btn-outline-secondary" @onclick="PreviousStep">
+                                    <i class="fas fa-arrow-left me-1"></i>Назад
+                                </button>
+                            }
+                            else
+                            {
+                                <div></div> <!-- Пустой элемент для выравнивания -->
+                            }
+                            
+                            @if (currentStep < 3)
+                            {
+                                <button type="button" class="btn btn-primary" @onclick="NextStep">
+                                    Далее <i class="fas fa-arrow-right ms-1"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-success" disabled="@isSubmitting">
+                                    @if (isSubmitting)
+                                    {
+                                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                        <span>Отправка...</span>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-check me-1"></i><span>Завершить регистрацию...</span>
+                                    }
+                                </button>
+                            }
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private int currentStep = 1;
+    private ClientModel clientModel = new();
+    private bool isSubmitting = false;
+    
+    private List<RegistrationStep> registrationSteps = new()
+    {
+        new RegistrationStep { Number = 1, Title = "Личные данные" },
+        new RegistrationStep { Number = 2, Title = "Адрес" },
+        new RegistrationStep { Number = 3, Title = "Дополнительно" }
+    };
+
+    private void NextStep()
+    {
+        // Валидация текущего шага перед переходом
+        if (ValidateCurrentStep())
+        {
+            currentStep++;
+            StateHasChanged();
+        }
+    }
+
+    private void PreviousStep()
+    {
+        currentStep--;
+        StateHasChanged();
+    }
+
+    private bool ValidateCurrentStep()
+    {
+        // Простая валидация для демонстрации
+        // В реальном приложении используйте более сложную логику валидации
+        
+        if (currentStep == 1)
+        {
+            if (string.IsNullOrWhiteSpace(clientModel.LastName) ||
+                string.IsNullOrWhiteSpace(clientModel.FirstName))
+            {
+                JSRuntime.InvokeVoidAsync("alert", "Пожалуйста, заполните обязательные поля: Фамилия и Имя");
+                return false;
+            }
+        }
+        else if (currentStep == 2)
+        {
+            if (string.IsNullOrWhiteSpace(clientModel.RegistrationRegion) ||
+                string.IsNullOrWhiteSpace(clientModel.RegistrationCity) ||
+                string.IsNullOrWhiteSpace(clientModel.RegistrationStreet) ||
+                string.IsNullOrWhiteSpace(clientModel.RegistrationHouse))
+            {
+                JSRuntime.InvokeVoidAsync("alert", "Пожалуйста, заполните обязательные поля адреса регистрации");
+                return false;
+            }
+            
+            if (!clientModel.SameAsRegistration && 
+                (string.IsNullOrWhiteSpace(clientModel.ActualRegion) ||
+                 string.IsNullOrWhiteSpace(clientModel.ActualCity) ||
+                 string.IsNullOrWhiteSpace(clientModel.ActualStreet) ||
+                 string.IsNullOrWhiteSpace(clientModel.ActualHouse)))
+            {
+                JSRuntime.InvokeVoidAsync("alert", "Пожалуйста, заполните обязательные поля фактического адреса");
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (!ValidateCurrentStep())
+            return;
+            
+        isSubmitting = true;
+        StateHasChanged();
+
+        // Имитация отправки данных на сервер
+        await Task.Delay(2000);
+        
+        // Здесь должна быть реальная логика сохранения данных
+        // Например, вызов API для сохранения анкеты клиента
+        
+        isSubmitting = false;
+        
+        // Сообщение об успехе
+        await JSRuntime.InvokeVoidAsync("alert", "Анкета успешно сохранена!");
+        
+        // В реальном приложении можно перенаправить на другую страницу
+        // NavigationManager.NavigateTo("/success");
+    }
+
+    // Модели данных
+    public class ClientModel
+    {
+        [Required(ErrorMessage = "Фамилия обязательна")]
+        public string LastName { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Имя обязательно")]
+        public string FirstName { get; set; } = string.Empty;
+        
+        public string MiddleName { get; set; } = string.Empty;
+        
+        // Адрес регистрации
+        [Required(ErrorMessage = "Индекс обязателен")]
+        public string RegistrationZipCode { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Регион обязателен")]
+        public string RegistrationRegion { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Город обязателен")]
+        public string RegistrationCity { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Улица обязательна")]
+        public string RegistrationStreet { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Дом обязателен")]
+        public string RegistrationHouse { get; set; } = string.Empty;
+        
+        public string RegistrationApartment { get; set; } = string.Empty;
+        
+        // Фактический адрес
+        public bool SameAsRegistration { get; set; } = true;
+        
+        public string ActualZipCode { get; set; } = string.Empty;
+        public string ActualRegion { get; set; } = string.Empty;
+        public string ActualCity { get; set; } = string.Empty;
+        public string ActualStreet { get; set; } = string.Empty;
+        public string ActualHouse { get; set; } = string.Empty;
+        public string ActualApartment { get; set; } = string.Empty;
+        
+        // Дополнительные поля
+        [EmailAddress(ErrorMessage = "Неверный формат email")]
+        public string Email { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Телефон обязателен")]
+        public string Phone { get; set; } = string.Empty;
+        
+        public string Source { get; set; } = string.Empty;
+        public string Comments { get; set; } = string.Empty;
+        
+        [Range(typeof(bool), "true", "true", ErrorMessage = "Необходимо согласие на обработку данных")]
+        public bool Agreement { get; set; } = false;
+    }
+
+    public class RegistrationStep
+    {
+        public int Number { get; set; }
+        public string Title { get; set; } = string.Empty;
+    }
+}

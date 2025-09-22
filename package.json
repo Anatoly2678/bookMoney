@@ -1,0 +1,8 @@
+{
+  "name": "helloapp",
+  "version": "1.0.0",
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "jquery": "^3.7.1"
+  }
+}
