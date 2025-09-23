@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Projects\\BookMoney\\",
+  "WorkspaceRootPath": "C:\\Projects\\bookMoney\\",
   "Documents": [
     {
       "AbsoluteMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|c:\\projects\\bookmoney\\pages\\clientregistration.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -64,11 +64,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "ClientRegistration.razor",
-              "DocumentMoniker": "C:\\Projects\\BookMoney\\Pages\\ClientRegistration.razor",
+              "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\ClientRegistration.razor",
               "RelativeDocumentMoniker": "Pages\\ClientRegistration.razor",
-              "ToolTip": "C:\\Projects\\BookMoney\\Pages\\ClientRegistration.razor",
+              "ToolTip": "C:\\Projects\\bookMoney\\Pages\\ClientRegistration.razor",
               "RelativeToolTip": "Pages\\ClientRegistration.razor",
-              "ViewState": "AgIAAGkBAAAAAAAAAAAAAJYBAABkAAAAAAAAAA==",
+              "ViewState": "AgIAAF4CAAAAAAAAAAAAAGwCAABlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-09-22T16:41:14.719Z",
               "EditorCaption": ""
@@ -77,144 +77,133 @@
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Projects\\BookMoney\\Program.cs",
+              "DocumentMoniker": "C:\\Projects\\bookMoney\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Projects\\BookMoney\\Program.cs",
+              "ToolTip": "C:\\Projects\\bookMoney\\Program.cs",
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T15:34:32.627Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-22T15:34:32.627Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
               "Title": "package.json",
-              "DocumentMoniker": "C:\\Projects\\BookMoney\\package.json",
+              "DocumentMoniker": "C:\\Projects\\bookMoney\\package.json",
               "RelativeDocumentMoniker": "package.json",
-              "ToolTip": "C:\\Projects\\BookMoney\\package.json",
+              "ToolTip": "C:\\Projects\\bookMoney\\package.json",
               "RelativeToolTip": "package.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-22T15:34:51.816Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-22T15:34:51.816Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
               "Title": "_Host.cshtml",
-              "DocumentMoniker": "C:\\Projects\\BookMoney\\Pages\\_Host.cshtml",
+              "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\_Host.cshtml",
               "RelativeDocumentMoniker": "Pages\\_Host.cshtml",
-              "ToolTip": "C:\\Projects\\BookMoney\\Pages\\_Host.cshtml",
+              "ToolTip": "C:\\Projects\\bookMoney\\Pages\\_Host.cshtml",
               "RelativeToolTip": "Pages\\_Host.cshtml",
               "ViewState": "AgIAAAUAAAAAAAAAAAAgwB4AAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-22T15:27:07.829Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-22T15:27:07.829Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
               "Title": "input.css",
-              "DocumentMoniker": "C:\\Projects\\BookMoney\\src\\input.css",
+              "DocumentMoniker": "C:\\Projects\\bookMoney\\src\\input.css",
               "RelativeDocumentMoniker": "src\\input.css",
-              "ToolTip": "C:\\Projects\\BookMoney\\src\\input.css",
+              "ToolTip": "C:\\Projects\\bookMoney\\src\\input.css",
               "RelativeToolTip": "src\\input.css",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-09-22T15:26:14.518Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-22T15:26:14.518Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
               "Title": "postcss.config.mjs",
-              "DocumentMoniker": "C:\\Projects\\BookMoney\\postcss.config.mjs",
+              "DocumentMoniker": "C:\\Projects\\bookMoney\\postcss.config.mjs",
               "RelativeDocumentMoniker": "postcss.config.mjs",
-              "ToolTip": "C:\\Projects\\BookMoney\\postcss.config.mjs",
+              "ToolTip": "C:\\Projects\\bookMoney\\postcss.config.mjs",
               "RelativeToolTip": "postcss.config.mjs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-09-22T15:25:58.367Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-22T15:25:58.367Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
               "Title": "PictureGeneratorComponent.razor",
-              "DocumentMoniker": "C:\\Projects\\BookMoney\\Pages\\PictureGeneratorComponent.razor",
+              "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\PictureGeneratorComponent.razor",
               "RelativeDocumentMoniker": "Pages\\PictureGeneratorComponent.razor",
-              "ToolTip": "C:\\Projects\\BookMoney\\Pages\\PictureGeneratorComponent.razor",
+              "ToolTip": "C:\\Projects\\bookMoney\\Pages\\PictureGeneratorComponent.razor",
               "RelativeToolTip": "Pages\\PictureGeneratorComponent.razor",
               "ViewState": "AgIAAJcBAAAAAAAAAAAAAJcBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-19T14:57:53.055Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-19T14:57:53.055Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "LoginComponent.razor",
-              "DocumentMoniker": "C:\\Projects\\BookMoney\\Pages\\LoginComponent.razor",
+              "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\LoginComponent.razor",
               "RelativeDocumentMoniker": "Pages\\LoginComponent.razor",
-              "ToolTip": "C:\\Projects\\BookMoney\\Pages\\LoginComponent.razor",
+              "ToolTip": "C:\\Projects\\bookMoney\\Pages\\LoginComponent.razor",
               "RelativeToolTip": "Pages\\LoginComponent.razor",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-19T14:43:38.657Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-19T14:43:38.657Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "MainLayout.razor",
-              "DocumentMoniker": "C:\\Projects\\BookMoney\\Pages\\MainLayout.razor",
+              "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\MainLayout.razor",
               "RelativeDocumentMoniker": "Pages\\MainLayout.razor",
-              "ToolTip": "C:\\Projects\\BookMoney\\Pages\\MainLayout.razor",
+              "ToolTip": "C:\\Projects\\bookMoney\\Pages\\MainLayout.razor",
               "RelativeToolTip": "Pages\\MainLayout.razor",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAABUAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-19T14:39:32.896Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-19T14:39:32.896Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "RegisterComponent.razor",
-              "DocumentMoniker": "C:\\Projects\\BookMoney\\Pages\\RegisterComponent.razor",
+              "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\RegisterComponent.razor",
               "RelativeDocumentMoniker": "Pages\\RegisterComponent.razor",
-              "ToolTip": "C:\\Projects\\BookMoney\\Pages\\RegisterComponent.razor",
+              "ToolTip": "C:\\Projects\\bookMoney\\Pages\\RegisterComponent.razor",
               "RelativeToolTip": "Pages\\RegisterComponent.razor",
               "ViewState": "AgIAAEAAAAAAAAAAAAAAAFUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-19T14:27:33.06Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-19T14:27:33.06Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 10,
               "Title": "_Imports.razor",
-              "DocumentMoniker": "C:\\Projects\\BookMoney\\_Imports.razor",
+              "DocumentMoniker": "C:\\Projects\\bookMoney\\_Imports.razor",
               "RelativeDocumentMoniker": "_Imports.razor",
-              "ToolTip": "C:\\Projects\\BookMoney\\_Imports.razor",
+              "ToolTip": "C:\\Projects\\bookMoney\\_Imports.razor",
               "RelativeToolTip": "_Imports.razor",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-18T16:58:27.764Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-18T16:58:27.764Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
               "Title": "Index.razor",
-              "DocumentMoniker": "C:\\Projects\\BookMoney\\Pages\\Index.razor",
+              "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\Index.razor",
               "RelativeDocumentMoniker": "Pages\\Index.razor",
-              "ToolTip": "C:\\Projects\\BookMoney\\Pages\\Index.razor",
+              "ToolTip": "C:\\Projects\\bookMoney\\Pages\\Index.razor",
               "RelativeToolTip": "Pages\\Index.razor",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-18T16:50:55.539Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-18T16:50:55.539Z"
             }
           ]
         }

@@ -37,3 +37,4 @@ C:\Projects\BookMoney\obj\Debug\net9.0\compressed\a65js5t1f5-{0}-e5yi9txt7g-e5yi
 C:\Projects\BookMoney\obj\Debug\net9.0\compressed\uzj24b6wuj-{0}-cgpb4pt8iq-cgpb4pt8iq.gz
 C:\Projects\BookMoney\obj\Debug\net9.0\compressed\a2bzkiw7yp-{0}-vg2n0lpslj-vg2n0lpslj.gz
 C:\Projects\BookMoney\obj\Debug\net9.0\compressed\opm937wpx4-{0}-pvuml9fcmm-pvuml9fcmm.gz
+C:\Projects\bookMoney\obj\Debug\net9.0\BookMoney.sourcelink.json

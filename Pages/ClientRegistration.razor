@@ -155,6 +155,35 @@
                                         <ValidationMessage For="@(() => clientModel.MiddleName)" />
                                     </div>
                                 </div>
+                                <div class="row">
+
+                                    <div class="col-md-4 mb-3">
+                                        <label for="dob" class="form-label fw-semibold">Дата рождения *</label>
+                                        <InputDate @bind-Value="clientModel.DOB"  
+                                                   class="form-control" 
+                                                   id="dob"
+                                                   placeholder="Введите дату рождения" />
+                                        <ValidationMessage For="@(() => clientModel.DOB)" />
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                        <label for="email" class="form-label fw-semibold">E-mail *</label>
+                                        <InputText @bind-Value="clientModel.Email" 
+                                                   class="form-control" 
+                                                   id="email"
+                                                   placeholder="Введите E-mail" />
+                                        <ValidationMessage For="@(() => clientModel.Email)" />
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                        <label for="password" class="form-label fw-semibold">Пароль *</label>
+                                        <InputText @bind-Value="clientModel.Password" 
+                                                   class="form-control" 
+                                                   id="password"
+                                                   placeholder="Введите пароль" />
+                                        <ValidationMessage For="@(() => clientModel.Password)" />
+                                    </div>
+                                </div>
                                 
                                 <div class="alert alert-info bg-light border-0 mt-3">
                                     <div class="d-flex">
@@ -171,9 +200,103 @@
                                 </div>
                             </div>
                         }
-                        
-                        <!-- Шаг 2: Адреса -->
+
+                              <!-- Шаг 2: Дополнительные поля -->
                         @if (currentStep == 2)
+                        {
+                            <div class="step-content">
+                                <h3 class="h5 mb-4 text-center">
+                                    <i class="fas fa-info-circle me-2 text-primary"></i>Паспорт
+                                </h3>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label fw-semibold">Серия *</label>
+                                        <InputText @bind-Value="clientModel.Email" 
+                                                   class="form-control" 
+                                                   id="email" />
+                                        <ValidationMessage For="@(() => clientModel.Email)" />
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phone" class="form-label fw-semibold">Номер *</label>
+                                        <InputText @bind-Value="clientModel.Phone" 
+                                                   class="form-control" 
+                                                   id="phone" />
+                                        <ValidationMessage For="@(() => clientModel.Phone)" />
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phone" class="form-label fw-semibold">Дата выдачи *</label>
+                                        <InputDate @bind-Value="clientModel.DOB"  
+                                                   class="form-control" 
+                                                   id="phone" />
+                                        <ValidationMessage For="@(() => clientModel.Phone)" />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label fw-semibold">Место рождения *</label>
+                                        <InputText @bind-Value="clientModel.Email" 
+                                                   class="form-control" 
+                                                   id="email" />
+                                        <ValidationMessage For="@(() => clientModel.Email)" />
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phone" class="form-label fw-semibold">Код подразделения *</label>
+                                        <InputText @bind-Value="clientModel.Phone" 
+                                                   class="form-control" 
+                                                   id="phone"/>
+                                        <ValidationMessage For="@(() => clientModel.Phone)" />
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phone" class="form-label fw-semibold">СНИЛС *</label>
+                                        <InputText @bind-Value="clientModel.Phone" 
+                                                   class="form-control" 
+                                                   id="phone"
+                                                   placeholder="(___) ___-__-__" />
+                                        <ValidationMessage For="@(() => clientModel.Phone)" />
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="source" class="form-label fw-semibold">Как вы о нас узнали?</label>
+                                    <InputSelect @bind-Value="clientModel.Source" class="form-select" id="source">
+                                        <option value="">Выберите вариант</option>
+                                        <option value="friends">От друзей/знакомых</option>
+                                        <option value="internet">Интернет-поиск</option>
+                                        <option value="social">Социальные сети</option>
+                                        <option value="advertisement">Реклама</option>
+                                        <option value="other">Другое</option>
+                                    </InputSelect>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="comments" class="form-label fw-semibold">Комментарии или пожелания</label>
+                                    <InputTextArea @bind-Value="clientModel.Comments" 
+                                                   class="form-control" 
+                                                   id="comments"
+                                                   rows="3"
+                                                   placeholder="Ваши комментарии..."></InputTextArea>
+                                </div>
+                                
+                                <div class="form-check mb-4">
+                                    <InputCheckbox @bind-Value="clientModel.Agreement" 
+                                                   class="form-check-input" 
+                                                   id="agreement" />
+                                    <label class="form-check-label" for="agreement">
+                                        Я даю согласие на обработку персональных данных *
+                                    </label>
+                                    <ValidationMessage For="@(() => clientModel.Agreement)" />
+                                </div>
+                                
+                                
+                            </div>
+                        }                        
+                        
+                        <!-- Шаг 3: Адреса -->
+                        @if (currentStep == 3)
                         {
                             <div class="step-content">
                                 <h3 class="h5 mb-4 text-center">
@@ -273,68 +396,7 @@
                                         </div>
                                     </div>
                                 }
-                            </div>
-                        }
-                        
-                        <!-- Шаг 3: Дополнительные поля -->
-                        @if (currentStep == 3)
-                        {
-                            <div class="step-content">
-                                <h3 class="h5 mb-4 text-center">
-                                    <i class="fas fa-info-circle me-2 text-primary"></i>Дополнительная информация
-                                </h3>
-                                
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="email" class="form-label fw-semibold">Электронная почта</label>
-                                        <InputText @bind-Value="clientModel.Email" 
-                                                   class="form-control" 
-                                                   id="email"
-                                                   placeholder="example@mail.com" />
-                                        <ValidationMessage For="@(() => clientModel.Email)" />
-                                    </div>
-                                    
-                                    <div class="col-md-6 mb-3">
-                                        <label for="phone" class="form-label fw-semibold">Контактный телефон *</label>
-                                        <InputText @bind-Value="clientModel.Phone" 
-                                                   class="form-control" 
-                                                   id="phone"
-                                                   placeholder="+7 (___) ___-__-__" />
-                                        <ValidationMessage For="@(() => clientModel.Phone)" />
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label for="source" class="form-label fw-semibold">Как вы о нас узнали?</label>
-                                    <InputSelect @bind-Value="clientModel.Source" class="form-select" id="source">
-                                        <option value="">Выберите вариант</option>
-                                        <option value="friends">От друзей/знакомых</option>
-                                        <option value="internet">Интернет-поиск</option>
-                                        <option value="social">Социальные сети</option>
-                                        <option value="advertisement">Реклама</option>
-                                        <option value="other">Другое</option>
-                                    </InputSelect>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label for="comments" class="form-label fw-semibold">Комментарии или пожелания</label>
-                                    <InputTextArea @bind-Value="clientModel.Comments" 
-                                                   class="form-control" 
-                                                   id="comments"
-                                                   rows="3"
-                                                   placeholder="Ваши комментарии..."></InputTextArea>
-                                </div>
-                                
-                                <div class="form-check mb-4">
-                                    <InputCheckbox @bind-Value="clientModel.Agreement" 
-                                                   class="form-check-input" 
-                                                   id="agreement" />
-                                    <label class="form-check-label" for="agreement">
-                                        Я даю согласие на обработку персональных данных *
-                                    </label>
-                                    <ValidationMessage For="@(() => clientModel.Agreement)" />
-                                </div>
-                                
+
                                 <!-- Сводка данных -->
                                 <div class="card bg-light mt-4">
                                     <div class="card-header">
@@ -374,7 +436,7 @@
                                 </div>
                             </div>
                         }
-                        
+         
                         <!-- Навигация -->
                         <div class="d-flex justify-content-between mt-4 pt-3 border-top">
                             @if (currentStep > 1)
@@ -458,7 +520,7 @@
                 return false;
             }
         }
-        else if (currentStep == 2)
+        else if (currentStep == 3)
         {
             if (string.IsNullOrWhiteSpace(clientModel.RegistrationRegion) ||
                 string.IsNullOrWhiteSpace(clientModel.RegistrationCity) ||
@@ -554,6 +616,14 @@
         
         public string Source { get; set; } = string.Empty;
         public string Comments { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Дата рождения обязательно")]
+        // [Range(typeof(DateTime), "2024-01-01", "2025-01-01", ErrorMessage = "Date must be valid")]
+        // [Range(typeof(double), "19000101", "20000101", ErrorMessage = "Date must be between 1900-01-01 and 2100-01-01")]
+        public DateTime DOB { get; set; } = DateTime.Now.AddDays(-25);
+
+        [Required(ErrorMessage = "Пароль обязателен")]
+        public string Password { get; set; } = string.Empty;
         
         [Range(typeof(bool), "true", "true", ErrorMessage = "Необходимо согласие на обработку данных")]
         public bool Agreement { get; set; } = false;

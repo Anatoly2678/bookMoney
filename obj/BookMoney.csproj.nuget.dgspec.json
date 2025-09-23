@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projects\\BookMoney\\BookMoney.csproj": {}
+    "C:\\Projects\\bookMoney\\BookMoney.csproj": {}
   },
   "projects": {
-    "C:\\Projects\\BookMoney\\BookMoney.csproj": {
+    "C:\\Projects\\bookMoney\\BookMoney.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\BookMoney\\BookMoney.csproj",
+        "projectUniqueName": "C:\\Projects\\bookMoney\\BookMoney.csproj",
         "projectName": "BookMoney",
-        "projectPath": "C:\\Projects\\BookMoney\\BookMoney.csproj",
+        "projectPath": "C:\\Projects\\bookMoney\\BookMoney.csproj",
         "packagesPath": "C:\\Users\\Анатолий\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\BookMoney\\obj\\",
+        "outputPath": "C:\\Projects\\bookMoney\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
