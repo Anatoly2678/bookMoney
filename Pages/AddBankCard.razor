@@ -1,5 +1,6 @@
 ﻿@page "/add-bank-card"
 @layout MainLayout
+
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Components.Forms
 @inject IJSRuntime JSRuntime
@@ -113,7 +114,7 @@
                                 <div class="mb-3">
                                     <label for="cardholderName" class="form-label fw-semibold">Имя владельца карты *</label>
                                     <InputText @bind-Value="cardModel.CardholderName" 
-                                               class="form-control text-uppercase" 
+                                               class="form-control" 
                                                id="cardholderName"
                                                placeholder="IVAN IVANOV"
                                                maxlength="50"
@@ -158,8 +159,12 @@
                                                        class="form-control" 
                                                        id="cvv"
                                                        placeholder="123"
-                                                       maxlength="4" />
-                                            <span class="input-group-text" @onmousedown="ShowCVV" @onmouseup="HideCVV" @onmouseleave="HideCVV">
+                                                       maxlength="4"
+                                                       @oninput="OnCVVChange" />
+                                            <span class="input-group-text" 
+                                                  @onmousedown="() => ShowCVV(true)" 
+                                                  @onmouseup="() => ShowCVV(false)" 
+                                                  @onmouseleave="() => ShowCVV(false)">
                                                 <i class="fas fa-eye"></i>
                                             </span>
                                         </div>
@@ -182,7 +187,7 @@
                                                        name="cardType" 
                                                        id="@cardType.Value"
                                                        checked="@(cardModel.CardType == cardType.Value)"
-                                                       @onchange="@(() => cardModel.CardType = cardType.Value)" />
+                                                       @onchange="@(() => { cardModel.CardType = cardType.Value; StateHasChanged(); })" />
                                                 <label class="form-check-label" for="@cardType.Value">
                                                     @cardType.Text
                                                 </label>
@@ -436,7 +441,8 @@
     private CardModel cardModel = new();
     private bool isSubmitting = false;
     private CardPreview cardPreview = new();
-    private string? tempCVV;
+    private bool showCVV = false;
+    private string? originalCVV;
 
     private List<CardType> cardTypes = new()
     {
@@ -470,6 +476,15 @@
         {
             years.Add((currentYear + i).ToString());
         }
+
+        // Устанавливаем значения по умолчанию для тестирования
+        cardModel.ExpiryMonth = "12";
+        cardModel.ExpiryYear = (DateTime.Now.Year + 2).ToString();
+        cardModel.CardType = "debit";
+        cardModel.IsPrimary = true;
+        
+        // Обновляем предпросмотр
+        OnExpiryChange();
     }
 
     private void OnCardNumberChange(ChangeEventArgs e)
@@ -509,12 +524,46 @@
             cardPreview.IsVisa = false;
             cardPreview.IsMastercard = false;
         }
+        
+        StateHasChanged();
     }
 
     private void OnCardholderNameChange(ChangeEventArgs e)
     {
         var value = e.Value?.ToString() ?? "";
+        cardModel.CardholderName = value.ToUpper();
         cardPreview.CardholderNameDisplay = value.Length == 0 ? "IVAN IVANOV" : value.ToUpper();
+        StateHasChanged();
+    }
+
+    private void OnCVVChange(ChangeEventArgs e)
+    {
+        var value = e.Value?.ToString() ?? "";
+        // Сохраняем только цифры
+        var cleaned = new string(value.Where(char.IsDigit).ToArray());
+        if (cleaned.Length > 4) cleaned = cleaned.Substring(0, 4);
+        cardModel.CVV = cleaned;
+        
+        // Сохраняем оригинальное значение для показа/скрытия
+        if (!showCVV)
+        {
+            originalCVV = cleaned;
+        }
+    }
+
+    private void ShowCVV(bool show)
+    {
+        showCVV = show;
+        if (show && originalCVV != null)
+        {
+            cardModel.CVV = originalCVV;
+        }
+        else if (!show)
+        {
+            originalCVV = cardModel.CVV;
+            cardModel.CVV = new string('•', cardModel.CVV.Length);
+        }
+        StateHasChanged();
     }
 
     private void OnExpiryChange()
@@ -527,27 +576,17 @@
         {
             cardPreview.ExpiryDisplay = "MM/YY";
         }
-    }
-
-    private void ShowCVV()
-    {
-        tempCVV = cardModel.CVV;
-        cardModel.CVV = new string('•', cardModel.CVV.Length);
         StateHasChanged();
-    }
-
-    private void HideCVV()
-    {
-        if (tempCVV != null)
-        {
-            cardModel.CVV = tempCVV;
-            tempCVV = null;
-            StateHasChanged();
-        }
     }
 
     private async Task HandleSubmit()
     {
+        // Восстанавливаем оригинальный CVV перед отправкой
+        if (originalCVV != null)
+        {
+            cardModel.CVV = originalCVV;
+        }
+
         isSubmitting = true;
         StateHasChanged();
 
@@ -560,7 +599,7 @@
         isSubmitting = false;
         
         // Сообщение об успехе
-        await JSRuntime.InvokeVoidAsync("alert", "Карта успешно добавлена!");
+        await JSRuntime.InvokeVoidAsync("alert", $"Карта {cardModel.CardNumber} успешно добавлена!");
         
         // Сброс формы после успешного добавления
         ResetForm();
@@ -570,6 +609,17 @@
     {
         cardModel = new CardModel();
         cardPreview = new CardPreview();
+        
+        // Устанавливаем значения по умолчанию
+        cardModel.ExpiryMonth = "12";
+        cardModel.ExpiryYear = (DateTime.Now.Year + 2).ToString();
+        cardModel.CardType = "debit";
+        cardModel.IsPrimary = true;
+        
+        showCVV = false;
+        originalCVV = null;
+        
+        OnExpiryChange();
         StateHasChanged();
     }
 
@@ -577,11 +627,11 @@
     public class CardModel
     {
         [Required(ErrorMessage = "Номер карты обязателен")]
-        [RegularExpression(@"^\d{4} \d{4} \d{4} \d{4}$", ErrorMessage = "Неверный формат номера карты")]
+        [StringLength(19, MinimumLength = 16, ErrorMessage = "Неверный формат номера карты")]
         public string CardNumber { get; set; } = string.Empty;
         
         [Required(ErrorMessage = "Имя владельца обязательно")]
-        // [RegularExpression(@"^[A-Z\s]+$", ErrorMessage = "Только латинские буквы и пробелы")]
+        [RegularExpression(@"^[A-Z\s]+$", ErrorMessage = "Только латинские буквы и пробелы")]
         public string CardholderName { get; set; } = string.Empty;
         
         [Required(ErrorMessage = "Месяц обязателен")]
