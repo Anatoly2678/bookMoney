@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Projects\\bookMoney\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|c:\\projects\\bookmoney\\pages\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|solutionrelative:pages\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|c:\\projects\\bookmoney\\pages\\addbankcard.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|solutionrelative:pages\\addbankcard.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|c:\\projects\\bookmoney\\pages\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|solutionrelative:pages\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|c:\\projects\\bookmoney\\pages\\addressform.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -66,17 +66,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "AddBankCard.razor",
               "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\AddBankCard.razor",
               "RelativeDocumentMoniker": "Pages\\AddBankCard.razor",
               "ToolTip": "C:\\Projects\\bookMoney\\Pages\\AddBankCard.razor",
               "RelativeToolTip": "Pages\\AddBankCard.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAHAAAAAAAAAA==",
+              "ViewState": "AgIAANQAAAAAAAAAAAAAAOMAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-09-28T16:25:06.803Z",
               "EditorCaption": ""
@@ -193,13 +193,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MainLayout.razor",
               "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\MainLayout.razor",
               "RelativeDocumentMoniker": "Pages\\MainLayout.razor",
               "ToolTip": "C:\\Projects\\bookMoney\\Pages\\MainLayout.razor",
               "RelativeToolTip": "Pages\\MainLayout.razor",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABsAAAA/AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-09-19T14:39:32.896Z",
               "EditorCaption": ""
