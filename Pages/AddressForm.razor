@@ -1,0 +1,590 @@
+﻿@page "/address-form"
+@layout MainLayout
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@inject IJSRuntime JSRuntime
+
+<style>
+    .card {
+        transition: all 0.3s ease;
+    }
+
+        .card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    }
+
+    .form-check-input:checked {
+        background-color: #198754;
+        border-color: #198754;
+    }
+
+    .form-switch .form-check-input:checked {
+        background-color: #198754;
+        border-color: #198754;
+    }
+
+    .btn {
+        border-radius: 6px;
+        padding: 0.5rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .border-primary {
+        border: 2px solid #0d6efd !important;
+    }
+
+    .border-success {
+        border: 2px solid #198754 !important;
+    }
+
+    .border-warning {
+        border: 2px solid #ffc107 !important;
+    }
+
+    /* Анимация для переключения состояний */
+    .step-content {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Стили для disabled полей */
+    .form-control:disabled, .form-select:disabled {
+        background-color: #f8f9fa;
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+
+    /* Стили для карточек адресов */
+    .card-header {
+        font-weight: 600;
+    }
+</style>
+
+<PageTitle>Адресная информация</PageTitle>
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h2 class="h4 mb-0 text-center">
+                        <i class="fas fa-home me-2"></i>Адресная информация
+                    </h2>
+                </div>
+                
+                <div class="card-body p-4">
+                    <EditForm Model="@addressModel" OnValidSubmit="@HandleSubmit">
+                        <DataAnnotationsValidator />
+                        
+                        <!-- Чекбокс совпадения адресов -->
+                        <div class="mb-4">
+                            <div class="form-check form-switch">
+                                <InputCheckbox @bind-Value="addressModel.SameAsRegistration" 
+                                             class="form-check-input" 
+                                             id="sameAddress"
+                                             @onchange="OnSameAddressChanged" />
+                                <label class="form-check-label fw-semibold" for="sameAddress">
+                                    Адрес проживания совпадает с адресом регистрации
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Адрес регистрации -->
+                            <div class="col-md-6">
+                                <div class="card h-100 border-primary">
+                                    <div class="card-header bg-light text-primary">
+                                        <h4 class="h5 mb-0">
+                                            <i class="fas fa-passport me-2"></i>Адрес регистрации
+                                        </h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Индекс -->
+                                        <div class="mb-3">
+                                            <label for="regZipCode" class="form-label fw-semibold">Почтовый индекс *</label>
+                                            <InputText @bind-Value="addressModel.RegistrationAddress.ZipCode" 
+                                                       class="form-control" 
+                                                       id="regZipCode"
+                                                       placeholder="123456" 
+                                                       maxlength="6" />
+                                            <ValidationMessage For="@(() => addressModel.RegistrationAddress.ZipCode)" />
+                                        </div>
+
+                                        <!-- Регион -->
+                                        <div class="mb-3">
+                                            <label for="regRegion" class="form-label fw-semibold">Регион (область, край) *</label>
+                                            <InputSelect @bind-Value="addressModel.RegistrationAddress.Region" class="form-select" id="regRegion">
+                                                <option value="">Выберите регион</option>
+                                                @foreach (var region in regions)
+                                                {
+                                                    <option value="@region">@region</option>
+                                                }
+                                            </InputSelect>
+                                            <ValidationMessage For="@(() => addressModel.RegistrationAddress.Region)" />
+                                        </div>
+
+                                        <!-- Район -->
+                                        <div class="mb-3">
+                                            <label for="regDistrict" class="form-label fw-semibold">Район</label>
+                                            <InputText @bind-Value="addressModel.RegistrationAddress.District" 
+                                                       class="form-control" 
+                                                       id="regDistrict"
+                                                       placeholder="Название района" />
+                                        </div>
+
+                                        <!-- Населенный пункт -->
+                                        <div class="mb-3">
+                                            <label for="regLocality" class="form-label fw-semibold">Населенный пункт *</label>
+                                            <InputText @bind-Value="addressModel.RegistrationAddress.Locality" 
+                                                       class="form-control" 
+                                                       id="regLocality"
+                                                       placeholder="Город, поселок, село" />
+                                            <ValidationMessage For="@(() => addressModel.RegistrationAddress.Locality)" />
+                                        </div>
+
+                                        <!-- Город -->
+                                        <div class="mb-3">
+                                            <label for="regCity" class="form-label fw-semibold">Город/Населенный пункт *</label>
+                                            <InputText @bind-Value="addressModel.RegistrationAddress.City" 
+                                                       class="form-control" 
+                                                       id="regCity"
+                                                       placeholder="Название города" />
+                                            <ValidationMessage For="@(() => addressModel.RegistrationAddress.City)" />
+                                        </div>
+
+                                        <!-- Улица -->
+                                        <div class="mb-3">
+                                            <label for="regStreet" class="form-label fw-semibold">Улица *</label>
+                                            <InputText @bind-Value="addressModel.RegistrationAddress.Street" 
+                                                       class="form-control" 
+                                                       id="regStreet"
+                                                       placeholder="Название улицы, проспекта" />
+                                            <ValidationMessage For="@(() => addressModel.RegistrationAddress.Street)" />
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="regHouse" class="form-label fw-semibold">Дом *</label>
+                                                <InputText @bind-Value="addressModel.RegistrationAddress.House" 
+                                                           class="form-control" 
+                                                           id="regHouse"
+                                                           placeholder="Номер дома" />
+                                                <ValidationMessage For="@(() => addressModel.RegistrationAddress.House)" />
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="regBuilding" class="form-label fw-semibold">Корпус/Строение</label>
+                                                <InputText @bind-Value="addressModel.RegistrationAddress.Building" 
+                                                           class="form-control" 
+                                                           id="regBuilding"
+                                                           placeholder="Корпус" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="regApartment" class="form-label fw-semibold">Квартира/Офис</label>
+                                                <InputText @bind-Value="addressModel.RegistrationAddress.Apartment" 
+                                                           class="form-control" 
+                                                           id="regApartment"
+                                                           placeholder="Номер квартиры" />
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="regFloor" class="form-label fw-semibold">Этаж</label>
+                                                <InputText @bind-Value="addressModel.RegistrationAddress.Floor" 
+                                                           class="form-control" 
+                                                           id="regFloor"
+                                                           placeholder="Номер этажа" />
+                                            </div>
+                                        </div>
+
+                                        <!-- Дата регистрации -->
+                                        <div class="mb-3">
+                                            <label for="regDate" class="form-label fw-semibold">Дата регистрации по адресу *</label>
+                                            <InputDate @bind-Value="addressModel.RegistrationAddress.RegistrationDate" 
+                                                       class="form-control" 
+                                                       id="regDate" />
+                                            <ValidationMessage For="@(() => addressModel.RegistrationAddress.RegistrationDate)" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Адрес проживания -->
+                            <div class="col-md-6">
+                                <div class="card h-100 @(addressModel.SameAsRegistration ? "border-success" : "border-warning")">
+                                    <div class="card-header @(addressModel.SameAsRegistration ? "bg-success text-white" : "bg-light text-warning")">
+                                        <h4 class="h5 mb-0">
+                                            <i class="fas fa-house-user me-2"></i>Адрес проживания
+                                            @if (addressModel.SameAsRegistration)
+                                            {
+                                                <span class="badge bg-light text-success ms-2">Совпадает</span>
+                                            }
+                                        </h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Индекс -->
+                                        <div class="mb-3">
+                                            <label for="actZipCode" class="form-label fw-semibold">Почтовый индекс *</label>
+                                            <InputText @bind-Value="addressModel.ActualAddress.ZipCode" 
+                                                       class="form-control" 
+                                                       id="actZipCode"
+                                                       placeholder="123456" 
+                                                       maxlength="6"
+                                                       disabled="@addressModel.SameAsRegistration" />
+                                            <ValidationMessage For="@(() => addressModel.ActualAddress.ZipCode)" />
+                                        </div>
+
+                                        <!-- Регион -->
+                                        <div class="mb-3">
+                                            <label for="actRegion" class="form-label fw-semibold">Регион (область, край) *</label>
+                                            <InputSelect @bind-Value="addressModel.ActualAddress.Region" 
+                                                         class="form-select" 
+                                                         id="actRegion"
+                                                         disabled="@addressModel.SameAsRegistration">
+                                                <option value="">Выберите регион</option>
+                                                @foreach (var region in regions)
+                                                {
+                                                    <option value="@region">@region</option>
+                                                }
+                                            </InputSelect>
+                                            <ValidationMessage For="@(() => addressModel.ActualAddress.Region)" />
+                                        </div>
+
+                                        <!-- Район -->
+                                        <div class="mb-3">
+                                            <label for="actDistrict" class="form-label fw-semibold">Район</label>
+                                            <InputText @bind-Value="addressModel.ActualAddress.District" 
+                                                       class="form-control" 
+                                                       id="actDistrict"
+                                                       placeholder="Название района"
+                                                       disabled="@addressModel.SameAsRegistration" />
+                                        </div>
+
+                                        <!-- Населенный пункт -->
+                                        <div class="mb-3">
+                                            <label for="actLocality" class="form-label fw-semibold">Населенный пункт *</label>
+                                            <InputText @bind-Value="addressModel.ActualAddress.Locality" 
+                                                       class="form-control" 
+                                                       id="actLocality"
+                                                       placeholder="Город, поселок, село"
+                                                       disabled="@addressModel.SameAsRegistration" />
+                                            <ValidationMessage For="@(() => addressModel.ActualAddress.Locality)" />
+                                        </div>
+
+                                        <!-- Город -->
+                                        <div class="mb-3">
+                                            <label for="actCity" class="form-label fw-semibold">Город/Населенный пункт *</label>
+                                            <InputText @bind-Value="addressModel.ActualAddress.City" 
+                                                       class="form-control" 
+                                                       id="actCity"
+                                                       placeholder="Название города"
+                                                       disabled="@addressModel.SameAsRegistration" />
+                                            <ValidationMessage For="@(() => addressModel.ActualAddress.City)" />
+                                        </div>
+
+                                        <!-- Улица -->
+                                        <div class="mb-3">
+                                            <label for="actStreet" class="form-label fw-semibold">Улица *</label>
+                                            <InputText @bind-Value="addressModel.ActualAddress.Street" 
+                                                       class="form-control" 
+                                                       id="actStreet"
+                                                       placeholder="Название улицы, проспекта"
+                                                       disabled="@addressModel.SameAsRegistration" />
+                                            <ValidationMessage For="@(() => addressModel.ActualAddress.Street)" />
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="actHouse" class="form-label fw-semibold">Дом *</label>
+                                                <InputText @bind-Value="addressModel.ActualAddress.House" 
+                                                           class="form-control" 
+                                                           id="actHouse"
+                                                           placeholder="Номер дома"
+                                                           disabled="@addressModel.SameAsRegistration" />
+                                                <ValidationMessage For="@(() => addressModel.ActualAddress.House)" />
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="actBuilding" class="form-label fw-semibold">Корпус/Строение</label>
+                                                <InputText @bind-Value="addressModel.ActualAddress.Building" 
+                                                           class="form-control" 
+                                                           id="actBuilding"
+                                                           placeholder="Корпус"
+                                                           disabled="@addressModel.SameAsRegistration" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="actApartment" class="form-label fw-semibold">Квартира/Офис</label>
+                                                <InputText @bind-Value="addressModel.ActualAddress.Apartment" 
+                                                           class="form-control" 
+                                                           id="actApartment"
+                                                           placeholder="Номер квартиры"
+                                                           disabled="@addressModel.SameAsRegistration" />
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="actFloor" class="form-label fw-semibold">Этаж</label>
+                                                <InputText @bind-Value="addressModel.ActualAddress.Floor" 
+                                                           class="form-control" 
+                                                           id="actFloor"
+                                                           placeholder="Номер этажа"
+                                                           disabled="@addressModel.SameAsRegistration" />
+                                            </div>
+                                        </div>
+
+                                        <!-- Тип проживания -->
+                                        <div class="mb-3">
+                                            <label for="livingType" class="form-label fw-semibold">Тип проживания *</label>
+                                            <InputSelect @bind-Value="addressModel.ActualAddress.LivingType" 
+                                                         class="form-select" 
+                                                         id="livingType"
+                                                         disabled="@addressModel.SameAsRegistration">
+                                                <option value="">Выберите тип</option>
+                                                <option value="own">Собственная недвижимость</option>
+                                                <option value="rent">Аренда</option>
+                                                <option value="relatives">У родственников</option>
+                                                <option value="other">Другое</option>
+                                            </InputSelect>
+                                            <ValidationMessage For="@(() => addressModel.ActualAddress.LivingType)" />
+                                        </div>
+
+                                        <!-- Период проживания -->
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="livingSince" class="form-label fw-semibold">Проживаю с *</label>
+                                                <InputDate @bind-Value="addressModel.ActualAddress.LivingSince" 
+                                                           class="form-control" 
+                                                           id="livingSince"
+                                                           disabled="@addressModel.SameAsRegistration" />
+                                                <ValidationMessage For="@(() => addressModel.ActualAddress.LivingSince)" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Дополнительная информация -->
+                        <div class="card mt-4">
+                            <div class="card-header bg-light">
+                                <h4 class="h5 mb-0">
+                                    <i class="fas fa-info-circle me-2"></i>Дополнительная информация
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="contactPhone" class="form-label fw-semibold">Контактный телефон по адресу *</label>
+                                    <InputText @bind-Value="addressModel.ContactPhone" 
+                                               class="form-control" 
+                                               id="contactPhone"
+                                               placeholder="+7 (___) ___-__-__" />
+                                    <ValidationMessage For="@(() => addressModel.ContactPhone)" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="additionalInfo" class="form-label fw-semibold">Дополнительная информация</label>
+                                    <InputTextArea @bind-Value="addressModel.AdditionalInfo" 
+                                                   class="form-control" 
+                                                   id="additionalInfo"
+                                                   rows="3"
+                                                   placeholder="Особенности доступа, код домофона, этаж и т.д."></InputTextArea>
+                                </div>
+
+                                <div class="form-check">
+                                    <InputCheckbox @bind-Value="addressModel.Agreement" 
+                                                   class="form-check-input" 
+                                                   id="agreement" />
+                                    <label class="form-check-label" for="agreement">
+                                        Подтверждаю достоверность указанных адресных данных *
+                                    </label>
+                                    <ValidationMessage For="@(() => addressModel.Agreement)" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Кнопки отправки -->
+                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                            <button type="button" class="btn btn-outline-secondary" @onclick="ResetForm">
+                                <i class="fas fa-redo me-1"></i>Очистить форму
+                            </button>
+                            
+                            <button type="submit" class="btn btn-success" disabled="@isSubmitting">
+                                @if (isSubmitting)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                    <span>Сохранение...</span>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-save me-1">Сохранить адрес</i>
+                                }
+                            </button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private AddressModel addressModel = new();
+    private bool isSubmitting = false;
+    
+    private List<string> regions = new()
+    {
+        "Московская область",
+        "Ленинградская область", 
+        "Краснодарский край",
+        "Свердловская область",
+        "Республика Татарстан",
+        "Нижегородская область",
+        "Новосибирская область",
+        "Ростовская область",
+        "Республика Башкортостан",
+        "Самарская область",
+        "Челябинская область",
+        "Красноярский край",
+        "Пермский край",
+        "Воронежская область",
+        "Волгоградская область"
+    };
+
+    protected override void OnInitialized()
+    {
+        // Устанавливаем текущую дату как дату регистрации по умолчанию
+        addressModel.RegistrationAddress.RegistrationDate = DateTime.Today;
+        addressModel.ActualAddress.LivingSince = DateTime.Today;
+    }
+
+    private void OnSameAddressChanged()
+    {
+        if (addressModel.SameAsRegistration)
+        {
+            // Копируем данные из адреса регистрации в адрес проживания
+            addressModel.ActualAddress = new AddressInfo
+            {
+                ZipCode = addressModel.RegistrationAddress.ZipCode,
+                Region = addressModel.RegistrationAddress.Region,
+                District = addressModel.RegistrationAddress.District,
+                Locality = addressModel.RegistrationAddress.Locality,
+                City = addressModel.RegistrationAddress.City,
+                Street = addressModel.RegistrationAddress.Street,
+                House = addressModel.RegistrationAddress.House,
+                Building = addressModel.RegistrationAddress.Building,
+                Apartment = addressModel.RegistrationAddress.Apartment,
+                Floor = addressModel.RegistrationAddress.Floor,
+                LivingType = "own", // По умолчанию для регистрации
+                LivingSince = addressModel.RegistrationAddress.RegistrationDate
+            };
+        }
+        else
+        {
+            // Очищаем адрес проживания при снятии галочки
+            addressModel.ActualAddress = new AddressInfo
+            {
+                LivingSince = DateTime.Today
+            };
+        }
+        StateHasChanged();
+    }
+
+    private async Task HandleSubmit()
+    {
+        isSubmitting = true;
+        StateHasChanged();
+
+        // Имитация сохранения данных
+        await Task.Delay(2000);
+        
+        // Здесь должна быть реальная логика сохранения
+        // await SaveAddressData();
+        
+        isSubmitting = false;
+        
+        // Сообщение об успехе
+        await JSRuntime.InvokeVoidAsync("alert", "Адресные данные успешно сохранены!");
+    }
+
+    private void ResetForm()
+    {
+        addressModel = new AddressModel
+        {
+            RegistrationAddress = new AddressInfo { RegistrationDate = DateTime.Today },
+            ActualAddress = new AddressInfo { LivingSince = DateTime.Today }
+        };
+        StateHasChanged();
+    }
+
+    // Модели данных
+    public class AddressModel
+    {
+        public bool SameAsRegistration { get; set; } = true;
+        
+        // [ValidateComplexType]
+        public AddressInfo RegistrationAddress { get; set; } = new();
+        
+        // [ValidateComplexType]
+        public AddressInfo ActualAddress { get; set; } = new();
+        
+        [Required(ErrorMessage = "Контактный телефон обязателен")]
+        [Phone(ErrorMessage = "Неверный формат телефона")]
+        public string ContactPhone { get; set; } = string.Empty;
+        
+        public string AdditionalInfo { get; set; } = string.Empty;
+        
+        [Range(typeof(bool), "true", "true", ErrorMessage = "Необходимо подтверждение")]
+        public bool Agreement { get; set; } = false;
+    }
+
+    public class AddressInfo
+    {
+        [Required(ErrorMessage = "Индекс обязателен")]
+        [RegularExpression(@"^\d{6}$", ErrorMessage = "Индекс должен содержать 6 цифр")]
+        public string ZipCode { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Регион обязателен")]
+        public string Region { get; set; } = string.Empty;
+        
+        public string District { get; set; } = string.Empty; // Район
+        
+        [Required(ErrorMessage = "Населенный пункт обязателен")]
+        public string Locality { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Город обязателен")]
+        public string City { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Улица обязательна")]
+        public string Street { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Дом обязателен")]
+        public string House { get; set; } = string.Empty;
+        
+        public string Building { get; set; } = string.Empty; // Корпус/строение
+        public string Apartment { get; set; } = string.Empty; // Квартира/офис
+        public string Floor { get; set; } = string.Empty; // Этаж
+        
+        // Дополнительные поля
+        public DateTime? RegistrationDate { get; set; } // Для адреса регистрации
+        public string LivingType { get; set; } = string.Empty; // Для адреса проживания
+        public DateTime? LivingSince { get; set; } // Для адреса проживания
+    }
+}

@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Projects\\bookMoney\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|c:\\projects\\bookmoney\\pages\\clientregistration.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|solutionrelative:pages\\clientregistration.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|c:\\projects\\bookmoney\\pages\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|solutionrelative:pages\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|c:\\projects\\bookmoney\\pages\\addbankcard.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|solutionrelative:pages\\addbankcard.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|c:\\projects\\bookmoney\\pages\\addressform.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|solutionrelative:pages\\addressform.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|c:\\projects\\bookmoney\\pages\\clientregistration.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|solutionrelative:pages\\clientregistration.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E5B7DBE2-0839-A75B-252E-A43DA3AE9913}|BookMoney.csproj|c:\\projects\\bookmoney\\pages\\registercomponent.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -58,24 +66,50 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "AddBankCard.razor",
+              "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\AddBankCard.razor",
+              "RelativeDocumentMoniker": "Pages\\AddBankCard.razor",
+              "ToolTip": "C:\\Projects\\bookMoney\\Pages\\AddBankCard.razor",
+              "RelativeToolTip": "Pages\\AddBankCard.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-28T16:25:06.803Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AddressForm.razor",
+              "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\AddressForm.razor",
+              "RelativeDocumentMoniker": "Pages\\AddressForm.razor",
+              "ToolTip": "C:\\Projects\\bookMoney\\Pages\\AddressForm.razor",
+              "RelativeToolTip": "Pages\\AddressForm.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-28T16:15:41.146Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "ClientRegistration.razor",
               "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\ClientRegistration.razor",
               "RelativeDocumentMoniker": "Pages\\ClientRegistration.razor",
-              "ToolTip": "C:\\Projects\\bookMoney\\Pages\\ClientRegistration.razor*",
-              "RelativeToolTip": "Pages\\ClientRegistration.razor*",
-              "ViewState": "AgIAAF4CAAAAAAAAAAAhwG8CAAAqAAAAAAAAAA==",
+              "ToolTip": "C:\\Projects\\bookMoney\\Pages\\ClientRegistration.razor",
+              "RelativeToolTip": "Pages\\ClientRegistration.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-09-22T16:41:14.719Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Projects\\bookMoney\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -87,7 +121,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "package.json",
               "DocumentMoniker": "C:\\Projects\\bookMoney\\package.json",
               "RelativeDocumentMoniker": "package.json",
@@ -99,7 +133,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "_Host.cshtml",
               "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\_Host.cshtml",
               "RelativeDocumentMoniker": "Pages\\_Host.cshtml",
@@ -111,7 +145,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "input.css",
               "DocumentMoniker": "C:\\Projects\\bookMoney\\src\\input.css",
               "RelativeDocumentMoniker": "src\\input.css",
@@ -123,7 +157,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "postcss.config.mjs",
               "DocumentMoniker": "C:\\Projects\\bookMoney\\postcss.config.mjs",
               "RelativeDocumentMoniker": "postcss.config.mjs",
@@ -135,7 +169,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "PictureGeneratorComponent.razor",
               "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\PictureGeneratorComponent.razor",
               "RelativeDocumentMoniker": "Pages\\PictureGeneratorComponent.razor",
@@ -147,7 +181,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "LoginComponent.razor",
               "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\LoginComponent.razor",
               "RelativeDocumentMoniker": "Pages\\LoginComponent.razor",
@@ -159,19 +193,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "MainLayout.razor",
               "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\MainLayout.razor",
               "RelativeDocumentMoniker": "Pages\\MainLayout.razor",
               "ToolTip": "C:\\Projects\\bookMoney\\Pages\\MainLayout.razor",
               "RelativeToolTip": "Pages\\MainLayout.razor",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABUAAABCAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABsAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-19T14:39:32.896Z"
+              "WhenOpened": "2025-09-19T14:39:32.896Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "RegisterComponent.razor",
               "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\RegisterComponent.razor",
               "RelativeDocumentMoniker": "Pages\\RegisterComponent.razor",
@@ -183,7 +218,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "_Imports.razor",
               "DocumentMoniker": "C:\\Projects\\bookMoney\\_Imports.razor",
               "RelativeDocumentMoniker": "_Imports.razor",
@@ -195,7 +230,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Index.razor",
               "DocumentMoniker": "C:\\Projects\\bookMoney\\Pages\\Index.razor",
               "RelativeDocumentMoniker": "Pages\\Index.razor",

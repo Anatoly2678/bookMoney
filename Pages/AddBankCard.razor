@@ -1,0 +1,624 @@
+﻿@page "/add-bank-card"
+@layout MainLayout
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Добавление банковской карты</PageTitle>
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h2 class="h4 mb-0 text-center">
+                        <i class="fas fa-credit-card me-2"></i>Добавление банковской карты
+                    </h2>
+                </div>
+                
+                <div class="card-body p-4">
+                    <div class="row">
+                        <!-- Предпросмотр карты -->
+                        <div class="col-md-5 mb-4">
+                            <div class="card-preview-container">
+                                <div class="bank-card @(cardPreview.IsVisa ? "visa-card" : cardPreview.IsMastercard ? "mastercard-card" : "default-card")">
+                                    <div class="card-header">
+                                        <div class="card-chip"></div>
+                                        <div class="card-logo">
+                                            @if (cardPreview.IsVisa)
+                                            {
+                                                <span class="card-logo-text visa-logo">VISA</span>
+                                            }
+                                            else if (cardPreview.IsMastercard)
+                                            {
+                                                <div class="mastercard-logo">
+                                                    <div class="circle red"></div>
+                                                    <div class="circle yellow"></div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <i class="fas fa-credit-card"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="card-number">
+                                        @cardPreview.CardNumberDisplay
+                                    </div>
+                                    <div class="card-details">
+                                        <div class="card-holder">
+                                            <div class="label">Владелец карты</div>
+                                            <div class="value">@cardPreview.CardholderNameDisplay</div>
+                                        </div>
+                                        <div class="card-expiry">
+                                            <div class="label">Срок действия</div>
+                                            <div class="value">@cardPreview.ExpiryDisplay</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="security-info mt-4">
+                                <div class="alert alert-info border-0">
+                                    <div class="d-flex">
+                                        <div class="me-3">
+                                            <i class="fas fa-shield-alt text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <small>
+                                                <strong>Безопасность</strong><br/>
+                                                Ваши данные защищены шифрованием. 
+                                                Мы не храним полные данные вашей карты.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Форма ввода -->
+                        <div class="col-md-7">
+                            <EditForm Model="@cardModel" OnValidSubmit="@HandleSubmit">
+                                <DataAnnotationsValidator />
+                                
+                                <!-- Номер карты -->
+                                <div class="mb-3">
+                                    <label for="cardNumber" class="form-label fw-semibold">Номер карты *</label>
+                                    <div class="input-group">
+                                        <InputText @bind-Value="cardModel.CardNumber" 
+                                                   class="form-control" 
+                                                   id="cardNumber"
+                                                   placeholder="1234 5678 9012 3456"
+                                                   maxlength="19"
+                                                   @oninput="OnCardNumberChange" />
+                                        <span class="input-group-text">
+                                            @if (cardPreview.IsVisa)
+                                            {
+                                                <span class="card-type-badge visa-badge">VISA</span>
+                                            }
+                                            else if (cardPreview.IsMastercard)
+                                            {
+                                                <span class="card-type-badge mastercard-badge">MC</span>
+                                            }
+                                            else
+                                            {
+                                                <i class="fas fa-credit-card text-muted"></i>
+                                            }
+                                        </span>
+                                    </div>
+                                    <ValidationMessage For="@(() => cardModel.CardNumber)" />
+                                </div>
+
+                                <!-- Имя владельца -->
+                                <div class="mb-3">
+                                    <label for="cardholderName" class="form-label fw-semibold">Имя владельца карты *</label>
+                                    <InputText @bind-Value="cardModel.CardholderName" 
+                                               class="form-control text-uppercase" 
+                                               id="cardholderName"
+                                               placeholder="IVAN IVANOV"
+                                               maxlength="50"
+                                               @oninput="OnCardholderNameChange" />
+                                    <ValidationMessage For="@(() => cardModel.CardholderName)" />
+                                </div>
+
+                                <div class="row">
+                                    <!-- Срок действия -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-semibold">Срок действия *</label>
+                                        <div class="row g-2">
+                                            <div class="col-6">
+                                                <InputSelect @bind-Value="cardModel.ExpiryMonth" class="form-select" @onchange="OnExpiryChange">
+                                                    <option value="">Месяц</option>
+                                                    @foreach (var month in months)
+                                                    {
+                                                        <option value="@month.Value">@month.Text</option>
+                                                    }
+                                                </InputSelect>
+                                                <ValidationMessage For="@(() => cardModel.ExpiryMonth)" />
+                                            </div>
+                                            <div class="col-6">
+                                                <InputSelect @bind-Value="cardModel.ExpiryYear" class="form-select" @onchange="OnExpiryChange">
+                                                    <option value="">Год</option>
+                                                    @foreach (var year in years)
+                                                    {
+                                                        <option value="@year">@year</option>
+                                                    }
+                                                </InputSelect>
+                                                <ValidationMessage For="@(() => cardModel.ExpiryYear)" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- CVV -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="cvv" class="form-label fw-semibold">CVV код *</label>
+                                        <div class="input-group">
+                                            <InputText @bind-Value="cardModel.CVV" 
+                                                       type="password"
+                                                       class="form-control" 
+                                                       id="cvv"
+                                                       placeholder="123"
+                                                       maxlength="4" />
+                                            <span class="input-group-text" @onmousedown="ShowCVV" @onmouseup="HideCVV" @onmouseleave="HideCVV">
+                                                <i class="fas fa-eye"></i>
+                                            </span>
+                                        </div>
+                                        <ValidationMessage For="@(() => cardModel.CVV)" />
+                                        <div class="form-text">
+                                            3 или 4 цифры на обратной стороне карты
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Тип карты -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Тип карты</label>
+                                    <div>
+                                        @foreach (var cardType in cardTypes)
+                                        {
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" 
+                                                       type="radio" 
+                                                       name="cardType" 
+                                                       id="@cardType.Value"
+                                                       checked="@(cardModel.CardType == cardType.Value)"
+                                                       @onchange="@(() => cardModel.CardType = cardType.Value)" />
+                                                <label class="form-check-label" for="@cardType.Value">
+                                                    @cardType.Text
+                                                </label>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+                                <!-- Основная карта -->
+                                <div class="mb-4">
+                                    <div class="form-check">
+                                        <InputCheckbox @bind-Value="cardModel.IsPrimary" 
+                                                       class="form-check-input" 
+                                                       id="isPrimary" />
+                                        <label class="form-check-label" for="isPrimary">
+                                            Сделать основной картой для выплат
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Соглашения -->
+                                <div class="mb-4">
+                                    <div class="form-check">
+                                        <InputCheckbox @bind-Value="cardModel.Agreement" 
+                                                       class="form-check-input" 
+                                                       id="agreement" />
+                                        <label class="form-check-label" for="agreement">
+                                            Я подтверждаю, что являюсь владельцем данной карты и согласен с 
+                                            <a href="#" class="text-decoration-none">условиями обработки данных</a> *
+                                        </label>
+                                        <ValidationMessage For="@(() => cardModel.Agreement)" />
+                                    </div>
+                                </div>
+
+                                <!-- Кнопки -->
+                                <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                                    <button type="button" class="btn btn-outline-secondary" @onclick="ResetForm">
+                                        <i class="fas fa-times me-1"></i>Отмена
+                                    </button>
+                                    
+                                    <button type="submit" class="btn btn-success" disabled="@isSubmitting">
+                                        @if (isSubmitting)
+                                        {
+                                            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                            <span>Добавление...</span>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-plus me-1">Добавить карту</i>
+                                        }
+                                    </button>
+                                </div>
+                            </EditForm>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Поддерживаемые карты -->
+            <div class="card mt-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Поддерживаемые платежные системы</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row align-items-center text-center">
+                        <div class="col">
+                            <div class="payment-system-logo visa-logo-large">VISA</div>
+                        </div>
+                        <div class="col">
+                            <div class="payment-system-logo mastercard-logo-large">
+                                <div class="circle red"></div>
+                                <div class="circle yellow"></div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="payment-system-logo mir-logo-large">МИР</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bank-card {
+        width: 100%;
+        height: 220px;
+        border-radius: 12px;
+        padding: 20px;
+        color: white;
+        position: relative;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        transition: all 0.3s ease;
+    }
+
+    .visa-card {
+        background: linear-gradient(135deg, #1a1f71, #6a11cb);
+    }
+
+    .mastercard-card {
+        background: linear-gradient(135deg, #f46b45, #eea849);
+    }
+
+    .default-card {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .card-chip {
+        width: 40px;
+        height: 30px;
+        background: linear-gradient(135deg, #ffd700, #ffed4e);
+        border-radius: 5px;
+        position: relative;
+    }
+
+    .card-chip:before {
+        content: '';
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+        border: 1px solid rgba(0,0,0,0.3);
+        border-radius: 3px;
+    }
+
+    .card-logo-text {
+        font-weight: bold;
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+
+    .mastercard-logo {
+        position: relative;
+        width: 40px;
+        height: 25px;
+    }
+
+    .mastercard-logo .circle {
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+    }
+
+    .mastercard-logo .circle.red {
+        background: #eb001b;
+        left: 0;
+    }
+
+    .mastercard-logo .circle.yellow {
+        background: #f79e1b;
+        right: 0;
+    }
+
+    .card-number {
+        font-size: 1.3rem;
+        letter-spacing: 2px;
+        font-family: 'Courier New', monospace;
+        margin-bottom: 25px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
+    .card-details {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .card-holder, .card-expiry {
+        font-size: 0.8rem;
+    }
+
+    .card-details .label {
+        font-size: 0.7rem;
+        opacity: 0.8;
+        margin-bottom: 2px;
+    }
+
+    .card-details .value {
+        font-size: 0.9rem;
+        font-weight: 500;
+        letter-spacing: 1px;
+    }
+
+    .card-type-badge {
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-weight: bold;
+    }
+
+    .visa-badge {
+        background: #1a1f71;
+        color: white;
+    }
+
+    .mastercard-badge {
+        background: #eb001b;
+        color: white;
+    }
+
+    .payment-system-logo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        font-weight: bold;
+    }
+
+    .visa-logo-large {
+        color: #1a1f71;
+        font-size: 2rem;
+    }
+
+    .mastercard-logo-large {
+        position: relative;
+        width: 50px;
+        height: 35px;
+    }
+
+    .mir-logo-large {
+        color: #1c5e8b;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .form-control:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    }
+
+    .input-group-text {
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .input-group-text:hover {
+        background-color: #e9ecef;
+    }
+</style>
+
+@code {
+    private CardModel cardModel = new();
+    private bool isSubmitting = false;
+    private CardPreview cardPreview = new();
+    private string? tempCVV;
+
+    private List<CardType> cardTypes = new()
+    {
+        new CardType { Value = "debit", Text = "Дебетовая" },
+        new CardType { Value = "credit", Text = "Кредитная" }
+    };
+
+    private List<MonthOption> months = new()
+    {
+        new MonthOption { Value = "01", Text = "01 - Январь" },
+        new MonthOption { Value = "02", Text = "02 - Февраль" },
+        new MonthOption { Value = "03", Text = "03 - Март" },
+        new MonthOption { Value = "04", Text = "04 - Апрель" },
+        new MonthOption { Value = "05", Text = "05 - Май" },
+        new MonthOption { Value = "06", Text = "06 - Июнь" },
+        new MonthOption { Value = "07", Text = "07 - Июль" },
+        new MonthOption { Value = "08", Text = "08 - Август" },
+        new MonthOption { Value = "09", Text = "09 - Сентябрь" },
+        new MonthOption { Value = "10", Text = "10 - Октябрь" },
+        new MonthOption { Value = "11", Text = "11 - Ноябрь" },
+        new MonthOption { Value = "12", Text = "12 - Декабрь" }
+    };
+
+    private List<string> years = new();
+
+    protected override void OnInitialized()
+    {
+        // Генерируем годы на 10 лет вперед
+        var currentYear = DateTime.Now.Year;
+        for (int i = 0; i < 10; i++)
+        {
+            years.Add((currentYear + i).ToString());
+        }
+    }
+
+    private void OnCardNumberChange(ChangeEventArgs e)
+    {
+        var value = e.Value?.ToString() ?? "";
+        
+        // Форматирование номера карты с пробелами
+        var cleaned = new string(value.Where(char.IsDigit).ToArray());
+        if (cleaned.Length > 16) cleaned = cleaned.Substring(0, 16);
+        
+        var formatted = string.Empty;
+        for (int i = 0; i < cleaned.Length; i++)
+        {
+            if (i > 0 && i % 4 == 0)
+                formatted += " ";
+            formatted += cleaned[i];
+        }
+        
+        cardModel.CardNumber = formatted;
+        
+        // Обновление предпросмотра
+        cardPreview.CardNumberDisplay = formatted.Length == 0 ? "•••• •••• •••• ••••" : formatted.PadRight(19, '•');
+        
+        // Определение типа карты
+        if (cleaned.StartsWith("4"))
+        {
+            cardPreview.IsVisa = true;
+            cardPreview.IsMastercard = false;
+        }
+        else if (cleaned.StartsWith("5"))
+        {
+            cardPreview.IsVisa = false;
+            cardPreview.IsMastercard = true;
+        }
+        else
+        {
+            cardPreview.IsVisa = false;
+            cardPreview.IsMastercard = false;
+        }
+    }
+
+    private void OnCardholderNameChange(ChangeEventArgs e)
+    {
+        var value = e.Value?.ToString() ?? "";
+        cardPreview.CardholderNameDisplay = value.Length == 0 ? "IVAN IVANOV" : value.ToUpper();
+    }
+
+    private void OnExpiryChange()
+    {
+        if (!string.IsNullOrEmpty(cardModel.ExpiryMonth) && !string.IsNullOrEmpty(cardModel.ExpiryYear))
+        {
+            cardPreview.ExpiryDisplay = $"{cardModel.ExpiryMonth}/{cardModel.ExpiryYear.Substring(2)}";
+        }
+        else
+        {
+            cardPreview.ExpiryDisplay = "MM/YY";
+        }
+    }
+
+    private void ShowCVV()
+    {
+        tempCVV = cardModel.CVV;
+        cardModel.CVV = new string('•', cardModel.CVV.Length);
+        StateHasChanged();
+    }
+
+    private void HideCVV()
+    {
+        if (tempCVV != null)
+        {
+            cardModel.CVV = tempCVV;
+            tempCVV = null;
+            StateHasChanged();
+        }
+    }
+
+    private async Task HandleSubmit()
+    {
+        isSubmitting = true;
+        StateHasChanged();
+
+        // Имитация процесса добавления карты
+        await Task.Delay(2000);
+        
+        // Здесь должна быть реальная логика сохранения карты
+        // await SaveCardToBackend();
+        
+        isSubmitting = false;
+        
+        // Сообщение об успехе
+        await JSRuntime.InvokeVoidAsync("alert", "Карта успешно добавлена!");
+        
+        // Сброс формы после успешного добавления
+        ResetForm();
+    }
+
+    private void ResetForm()
+    {
+        cardModel = new CardModel();
+        cardPreview = new CardPreview();
+        StateHasChanged();
+    }
+
+    // Модели данных
+    public class CardModel
+    {
+        [Required(ErrorMessage = "Номер карты обязателен")]
+        [RegularExpression(@"^\d{4} \d{4} \d{4} \d{4}$", ErrorMessage = "Неверный формат номера карты")]
+        public string CardNumber { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Имя владельца обязательно")]
+        // [RegularExpression(@"^[A-Z\s]+$", ErrorMessage = "Только латинские буквы и пробелы")]
+        public string CardholderName { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Месяц обязателен")]
+        public string ExpiryMonth { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Год обязателен")]
+        public string ExpiryYear { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "CVV код обязателен")]
+        [RegularExpression(@"^\d{3,4}$", ErrorMessage = "CVV должен содержать 3 или 4 цифры")]
+        public string CVV { get; set; } = string.Empty;
+        
+        public string CardType { get; set; } = "debit";
+        public bool IsPrimary { get; set; } = true;
+        
+        [Range(typeof(bool), "true", "true", ErrorMessage = "Необходимо подтверждение")]
+        public bool Agreement { get; set; } = false;
+    }
+
+    public class CardPreview
+    {
+        public string CardNumberDisplay { get; set; } = "•••• •••• •••• ••••";
+        public string CardholderNameDisplay { get; set; } = "IVAN IVANOV";
+        public string ExpiryDisplay { get; set; } = "MM/YY";
+        public bool IsVisa { get; set; } = false;
+        public bool IsMastercard { get; set; } = false;
+    }
+
+    public class CardType
+    {
+        public string Value { get; set; } = string.Empty;
+        public string Text { get; set; } = string.Empty;
+    }
+
+    public class MonthOption
+    {
+        public string Value { get; set; } = string.Empty;
+        public string Text { get; set; } = string.Empty;
+    }
+}
