@@ -33,3 +33,5 @@ packages/
 *.dll
 
 .idea/
+*/bin/Debug/*
+
