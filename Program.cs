@@ -1,10 +1,24 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.FileProviders;
+using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Настройка логирования
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
+//builder.Logging.AddConsole();
+//builder.Logging.AddDebug();
+////builder.Logging.AddEventLog();
+//builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
+//builder.Services.AddLogging();
+
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+
+
 
 var app = builder.Build();
 IWebHostEnvironment env = app.Environment;
@@ -12,11 +26,11 @@ IWebHostEnvironment env = app.Environment;
 if (!app.Environment.IsDevelopment())
 {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
 
 app.UseFileServer(new FileServerOptions()
