@@ -1,2 +1,22 @@
-﻿@page "/"
+﻿@using Microsoft.Extensions.Logging
+@inject ILogger<Index> Logger
+
+@page "/"
 @layout MainLayout
+
+@code {
+    protected override void OnInitialized()
+    {
+        Logger.LogInformation("Компонент Counter инициализирован");
+        base.OnInitialized();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Logger.LogInformation("Компонент Counter первый раз отрендерен");
+        }
+        base.OnAfterRender(firstRender);
+    }
+}
