@@ -1,20 +1,23 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Logging;
+using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
-
 // Настройка логирования
-//builder.Logging.ClearProviders();
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
 //builder.Logging.AddConsole();
 //builder.Logging.AddDebug();
 ////builder.Logging.AddEventLog();
 //builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
 //builder.Services.AddLogging();
+
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+
+
 
 
 var app = builder.Build();

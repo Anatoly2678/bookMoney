@@ -27,15 +27,10 @@ C:\Projects\BookMoney\obj\Debug\net9.0\rjimswa.dswa.cache.json
 C:\Projects\BookMoney\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 C:\Projects\BookMoney\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
 C:\Projects\BookMoney\obj\Debug\net9.0\scopedcss\bundle\BookMoney.styles.css
-C:\Projects\BookMoney\obj\Debug\net9.0\compressed\a65js5t1f5-{0}-e5yi9txt7g-e5yi9txt7g.gz
-C:\Projects\BookMoney\obj\Debug\net9.0\compressed\a2bzkiw7yp-{0}-vg2n0lpslj-vg2n0lpslj.gz
-C:\Projects\BookMoney\obj\Debug\net9.0\compressed\opm937wpx4-{0}-pvuml9fcmm-pvuml9fcmm.gz
-C:\Projects\BookMoney\obj\Debug\net9.0\compressed\uzj24b6wuj-{0}-cgpb4pt8iq-cgpb4pt8iq.gz
 C:\Projects\BookMoney\obj\Debug\net9.0\staticwebassets.build.json
 C:\Projects\BookMoney\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\Projects\BookMoney\obj\Debug\net9.0\staticwebassets.development.json
 C:\Projects\BookMoney\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-C:\Projects\BookMoney\obj\Debug\net9.0\swae.build.ex.cache
 C:\Projects\BookMoney\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\Projects\BookMoney\obj\Debug\net9.0\BookMoney.csproj.Up2Date
 C:\Projects\BookMoney\obj\Debug\net9.0\BookMoney.dll
@@ -49,3 +44,8 @@ C:\Projects\BookMoney\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
 C:\Projects\BookMoney\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Projects\BookMoney\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
 C:\Projects\BookMoney\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
+C:\Projects\BookMoney\obj\Debug\net9.0\compressed\0lgkuidyuh-e5yi9txt7g.gz
+C:\Projects\BookMoney\obj\Debug\net9.0\compressed\ypk5gx49xf-vg2n0lpslj.gz
+C:\Projects\BookMoney\obj\Debug\net9.0\compressed\own2j7egp8-pvuml9fcmm.gz
+C:\Projects\BookMoney\obj\Debug\net9.0\compressed\7zuww2bmlx-cgpb4pt8iq.gz
+C:\Projects\BookMoney\bin\Debug\net9.0\nlog.config

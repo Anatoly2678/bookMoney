@@ -2,7 +2,7 @@ wwwroot\css\app.css
 wwwroot\css\site.css
 wwwroot\js\index.js
 wwwroot\js\tailwind.js
+C:\Projects\BookMoney\wwwroot\js\tailwind.js
+C:\Projects\BookMoney\wwwroot\js\index.js
 C:\Projects\BookMoney\wwwroot\css\app.css
 C:\Projects\BookMoney\wwwroot\css\site.css
-C:\Projects\BookMoney\wwwroot\js\index.js
-C:\Projects\BookMoney\wwwroot\js\tailwind.js

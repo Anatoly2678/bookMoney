@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BookMoney")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5f0e4266a65f237160fca1f01e3c14bd707df239")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d8c44e672ecc062ff0e6303396dac2b6a72fa6b5")]
 [assembly: System.Reflection.AssemblyProductAttribute("BookMoney")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BookMoney")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
