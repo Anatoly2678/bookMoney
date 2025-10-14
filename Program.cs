@@ -7,6 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Настройка логирования
 builder.Logging.ClearProviders();
+
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+builder.Logging.SetMinimumLevel(LogLevel.Debug);
+
 builder.Host.UseNLog();
 //builder.Logging.AddConsole();
 //builder.Logging.AddDebug();

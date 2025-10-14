@@ -6,9 +6,9 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
-	<Target Name="NpmInstall" BeforeTargets="Build">
+	<!--<Target Name="NpmInstall" BeforeTargets="Build">
 		<Exec Command="npm install" />
-	</Target>
+	</Target>-->
 
 	<ItemGroup>
 	  <Content Include="src\input.css" />
