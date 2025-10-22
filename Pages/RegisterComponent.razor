@@ -1,8 +1,11 @@
 ﻿@page "/registration"
 @layout MainLayout
 @using System.ComponentModel.DataAnnotations
+@using BookMoney.Attributes
+@using BookMoney.Services
 @using Microsoft.AspNetCore.Components.Forms
 @inject IJSRuntime JSRuntime
+@inject ILoginService _context;
 
 <style>
     .registration-card {
@@ -37,10 +40,10 @@
                         <!-- Номер телефона -->
                         <div class="mb-3">
                             <label for="phone" class="form-label">Номер телефона</label>
-                            <InputText @bind-Value="registrationModel.PhoneNumber" 
-                                      class="form-control" 
+                            <InputText @bind-Value="registrationModel.PhoneNumber"  
+                                       class="form-control" maxlength="12"
                                       id="phone"
-                                      placeholder="+7(XXX)XXX-XX-XX" />
+                                       placeholder="+7XXXXXXXXXX" />
                             <ValidationMessage For="@(() => registrationModel.PhoneNumber)" />
                         </div>
 
@@ -71,15 +74,21 @@
 
     private async Task HandleRegistration()
     {
+        var result = await _context.AddLoginAsync(new Models.LoginDBModel
+        { IsActive = false, Login = registrationModel.PhoneNumber, Password = "pass", DateCreate = DateTime.UtcNow });
+
+
+        if(result?.Id != null)
         // Здесь должна быть ваша логика регистрации
         // Например, отправка номера телефона для верификации
-        await JSRuntime.InvokeVoidAsync("alert", $"Регистрация для: {registrationModel.PhoneNumber}");
+            await JSRuntime.InvokeVoidAsync("alert", $"Регистрация для: {registrationModel.PhoneNumber}");
     }
 
     public class RegistrationModel
     {
         [Required(ErrorMessage = "Введите номер телефона")]
         [Phone(ErrorMessage = "Неверный формат номера")]
+        [PhoneMask(ErrorMessage = "Формат: +7XXXXXXXXXX")]
         public string PhoneNumber { get; set; }
     }
 }

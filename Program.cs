@@ -1,9 +1,17 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using BookMoney.Data;
+using BookMoney.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using NLog.Web;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Добавление User Secrets в конфигурацию
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddUserSecrets<Program>();
+}
 
 // Настройка логирования
 builder.Logging.ClearProviders();
@@ -22,10 +30,27 @@ builder.Host.UseNLog();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
+// Получение connection string из secrets.json
+var connectionString = builder.Configuration.GetConnectionString("PostgreSQL");
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("Connection string not found in secrets.json");
+}
 
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(connectionString));
 
+builder.Services.AddScoped<ILoginService, LoginService>();
 
 var app = builder.Build();
+
+// Миграция базы данных при запуске
+//using (var scope = app.Services.CreateScope())
+//{
+//    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+//    await dbContext.Database.MigrateAsync();
+//}
+
 IWebHostEnvironment env = app.Environment;
 
 if (!app.Environment.IsDevelopment())

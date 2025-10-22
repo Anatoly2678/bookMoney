@@ -1,14 +1,38 @@
 ﻿@inject ILogger<Index> Logger
+@inject ILoginService _context;
 
 @page "/"
+@using BookMoney.Data
+@using BookMoney.Models
+@using BookMoney.Services
 @layout MainLayout
 
+@foreach (var item in logins)
+{
+    <div>@item.Login -> @item.DateCreate.ToString("G")</div>
+}
+
 @code {
-    protected override void OnInitialized()
+
+    List<LoginDBModel> logins = [];
+
+    protected override async Task OnInitializedAsync()
     {
         Logger.LogInformation("Компонент Counter инициализирован");
-        base.OnInitialized();
+        await base.OnInitializedAsync();
+
+        var users = await _context.GetLoginsAsync();
+        logins = users;
     }
+
+    // protected override void OnInitialized()
+    // {
+    //     Logger.LogInformation("Компонент Counter инициализирован");
+    //     base.OnInitialized();
+
+    //     var t = _context.Logins.FirstOrDefault()?.Login;
+    //     xx = t;
+    // }
 
     protected override void OnAfterRender(bool firstRender)
     {
