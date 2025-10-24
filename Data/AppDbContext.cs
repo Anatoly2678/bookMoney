@@ -1,5 +1,4 @@
 ﻿using BookMoney.Models;
-using BookMoney.ModelsTemp;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,4 @@
-﻿using BookMoney.ModelsTemp;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookMoney.Models;
@@ -24,5 +23,5 @@ public partial class ConfirmSmsDBModel
     public Guid LoginId { get; set; }
 
     [ForeignKey("LoginId")]
-    public virtual Login Login { get; set; } = null!;
+    public virtual LoginDBModel Login { get; set; } = null!;
 }

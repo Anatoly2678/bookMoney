@@ -1,5 +1,6 @@
 using BookMoney.Data;
 using BookMoney.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using NLog.Web;
@@ -50,6 +51,7 @@ var app = builder.Build();
 //    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 //    await dbContext.Database.MigrateAsync();
 //}
+app.UseDeveloperExceptionPage();
 
 IWebHostEnvironment env = app.Environment;
 
@@ -78,3 +80,13 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
+
+
+//public static IHostBuilder CreateHostBuilder(string[] args) =>
+//    Host.CreateDefaultBuilder(args)
+//        .ConfigureWebHostDefaults(webBuilder =>
+//        {
+//            webBuilder.CaptureStartupErrors(true);
+//            webBuilder.UseSetting("detailedErrors", "true");
+//            webBuilder.UseStartup<Startup>();
+//        });
