@@ -1,5 +1,6 @@
 ﻿using BookMoney.Data;
 using BookMoney.Models;
+using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookMoney.Services;
@@ -7,11 +8,12 @@ namespace BookMoney.Services;
 public interface ILoginService
 {
     Task<List<LoginDBModel>> GetLoginsAsync();
-    Task<LoginDBModel> GetLoginAsync(int id);
+    Task<LoginDBModel> GetLoginAsync(Guid id);
     Task<LoginDBModel> AddLoginAsync(LoginDBModel user);
     Task<LoginDBModel> UpdateLoginAsync(LoginDBModel user);
-    Task<bool> DeleteLoginAsync(int id);
-    Task<bool> ActivateLoginAsync(int id);
+    Task<bool> DeleteLoginAsync(Guid id);
+    Task<bool> ActivateLoginAsync(Guid id);
+    Task<Maybe<Guid>> GetIdByPhoneAsync(string phone);
 }
 
 public class LoginService(AppDbContext context) : ILoginService
@@ -23,7 +25,7 @@ public class LoginService(AppDbContext context) : ILoginService
         return user;
     }
 
-    public async Task<bool> ActivateLoginAsync(int id)
+    public async Task<bool> ActivateLoginAsync(Guid id)
     {
         var user = await context.Logins.FindAsync(id);
         if (user == null) return false;
@@ -34,7 +36,7 @@ public class LoginService(AppDbContext context) : ILoginService
         return true;
     }
 
-    public async Task<bool> DeleteLoginAsync(int id)
+    public async Task<bool> DeleteLoginAsync(Guid id)
     {
         var user = await context.Logins.FindAsync(id);
         if (user == null) return false;
@@ -45,10 +47,15 @@ public class LoginService(AppDbContext context) : ILoginService
         return true;
     }
 
-    public async Task<LoginDBModel> GetLoginAsync(int id)
+    public async Task<LoginDBModel> GetLoginAsync(Guid id)
     {
-        return await context.Logins.FindAsync(id);
+        return await context.Logins!.FindAsync(id)!;
     }
+
+    public async Task<Maybe<Guid>> GetIdByPhoneAsync(string phone) =>
+    (await context.Logins!
+        .SingleOrDefaultAsync(w => w.Login == phone))
+        ?.Id ?? Maybe<Guid>.None;
 
     public async Task<List<LoginDBModel>> GetLoginsAsync()
     {

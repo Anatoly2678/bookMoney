@@ -42,6 +42,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
 builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<ClientStateService>();
 
 var app = builder.Build();
 

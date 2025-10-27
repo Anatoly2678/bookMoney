@@ -1,7 +1,5 @@
 ﻿using BookMoney.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 
 namespace BookMoney.Data;
 
