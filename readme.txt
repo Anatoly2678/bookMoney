@@ -1,6 +1,6 @@
 Scaffold-DbContext "Host=localhost;Port=5432;Database=bookmoney;Username=postgres;Password=123" Npgsql.EntityFrameworkCore.PostgreSQL -OutputDir ModelsTemp -ContextDir Data -Context AppDbContextTemp -DataAnnotations -Force
 
--- client.login определение
+-- client.login РѕРїСЂРµРґРµР»РµРЅРёРµ
 
 -- Drop table
 
@@ -16,7 +16,7 @@ CREATE TABLE client.login (
 	CONSTRAINT login_unique UNIQUE (login)
 );
 
--- client.confirm_sms определение
+-- client.confirm_sms РѕРїСЂРµРґРµР»РµРЅРёРµ
 
 -- Drop table
 
@@ -31,7 +31,7 @@ CREATE TABLE client.confirm_sms (
 	CONSTRAINT confirm_sms_pk PRIMARY KEY (id)
 );
 
--- client.confirm_sms внешние включи
+-- client.confirm_sms РІРЅРµС€РЅРёРµ РІРєР»СЋС‡Рё
 
 ALTER TABLE client.confirm_sms ADD CONSTRAINT confirm_sms_login_fk FOREIGN KEY (login_id) REFERENCES client.login(id);
 ALTER TABLE client.confirm_sms ADD CONSTRAINT uk2 FOREIGN KEY (login_id) REFERENCES client.login(id);
