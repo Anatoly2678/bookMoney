@@ -2,6 +2,8 @@
 using BookMoney.Models;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
+using static BookMoney.Pages.RegisterComponent;
 
 namespace BookMoney.Services;
 
@@ -14,6 +16,7 @@ public interface ILoginService
     Task<bool> DeleteLoginAsync(Guid id);
     Task<bool> ActivateLoginAsync(Guid id);
     Task<Maybe<Guid>> GetIdByPhoneAsync(string phone);
+    Task<Maybe<Guid>> AddLoginAsync(string phone);
 }
 
 public class LoginService(AppDbContext context) : ILoginService
@@ -23,6 +26,30 @@ public class LoginService(AppDbContext context) : ILoginService
         context.Logins.Add(user);
         await context.SaveChangesAsync();
         return user;
+    }
+
+    public async Task<Maybe<Guid>> AddLoginAsync(string phone)
+    {
+        var login = new Models.LoginDBModel
+        {
+            IsActive = false,
+            Login = phone,
+            //DateCreate = DateTime.UtcNow
+        };
+
+        try
+        {
+            await context.Logins.AddAsync(login);
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateException err) 
+            when (err.InnerException is PostgresException pgEx && pgEx.SqlState == "23505" && pgEx.Message.Contains("login_unique"))
+        {
+            var id = await GetIdByPhoneAsync(phone);
+            return id.Value;
+        }
+
+        return login.Id;
     }
 
     public async Task<bool> ActivateLoginAsync(Guid id)

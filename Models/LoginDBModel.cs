@@ -16,7 +16,7 @@ public partial class LoginDBModel
     public string Login { get; set; } = null!;
 
     [Column("password", TypeName = "character varying")]
-    public string Password { get; set; } = null!;
+    public string? Password { get; set; }
 
     [Column("is_active")]
     public bool IsActive { get; set; }

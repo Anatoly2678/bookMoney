@@ -3,12 +3,14 @@
 @using System.ComponentModel.DataAnnotations
 @using BookMoney.Attributes
 @using BookMoney.Services
+@using BookMoney.UseCases
 @using CSharpFunctionalExtensions
 @using Microsoft.AspNetCore.Components.Forms
 @inject IJSRuntime JSRuntime
 @inject ILoginService _context;
 @inject NavigationManager _navigation;
 @inject ClientStateService _clientState;
+@inject IClientUseCase clientUseCase;
 
 <style>
     .registration-card {
@@ -77,29 +79,34 @@
 
     private async Task HandleRegistration()
     {
-        var clientId = await _context.GetIdByPhoneAsync(registrationModel.PhoneNumber);
-
-        if (clientId.HasNoValue)
+        var login = await clientUseCase.AddPhoneNumberAsync(registrationModel.PhoneNumber);
+        if(login.IsSuccess)
         {
-            var result = await _context.AddLoginAsync(new Models.LoginDBModel
-                {
-                    IsActive = false,
-                    Login = registrationModel.PhoneNumber,
-                    Password = "none",
-                    DateCreate = DateTime.UtcNow
-                });
-            clientId = result!.Id;
-        }
-
-
-        if (clientId.HasValue)
-        {
-            _clientState.SetClientId(clientId.Value);
             _navigation.NavigateTo("/client-registration");
-        // Здесь должна быть ваша логика регистрации
-        // Например, отправка номера телефона для верификации
-         //   await JSRuntime.InvokeVoidAsync("alert", $"Регистрация для: {registrationModel.PhoneNumber}");
         }
+        // var clientId = await _context.GetIdByPhoneAsync(registrationModel.PhoneNumber);
+
+        // if (clientId.HasNoValue)
+        // {
+        //     var result = await _context.AddLoginAsync(new Models.LoginDBModel
+        //         {
+        //             IsActive = false,
+        //             Login = registrationModel.PhoneNumber,
+        //             Password = "none",
+        //             DateCreate = DateTime.UtcNow
+        //         });
+        //     clientId = result!.Id;
+        // }
+
+
+        // if (clientId.HasValue)
+        // {
+        //     _clientState.SetClientId(clientId.Value);
+        //     _navigation.NavigateTo("/client-registration");
+        // // Здесь должна быть ваша логика регистрации
+        // // Например, отправка номера телефона для верификации
+        //  //   await JSRuntime.InvokeVoidAsync("alert", $"Регистрация для: {registrationModel.PhoneNumber}");
+        // }
     }
 
     public class RegistrationModel

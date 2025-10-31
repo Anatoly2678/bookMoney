@@ -22,6 +22,7 @@ public partial class AppDbContext : DbContext
     {
         modelBuilder.Entity<ConfirmSmsDBModel>(entity =>
         {
+            entity.HasKey(e => e.Id).HasName("confirm_sms_pk");
             entity.Property(e => e.DateCreate).HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.Id).HasDefaultValueSql("gen_random_uuid()");
 
@@ -33,7 +34,7 @@ public partial class AppDbContext : DbContext
         modelBuilder.Entity<LoginDBModel>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("login_pk");
-
+            entity.Property(e => e.DateCreate).HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.Id).HasDefaultValueSql("gen_random_uuid()");
             entity.Property(e => e.IsActive).HasDefaultValue(false);
         });
