@@ -3,7 +3,6 @@ using BookMoney.Models;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using static BookMoney.Pages.RegisterComponent;
 
 namespace BookMoney.Services;
 
@@ -34,7 +33,6 @@ public class LoginService(AppDbContext context) : ILoginService
         {
             IsActive = false,
             Login = phone,
-            //DateCreate = DateTime.UtcNow
         };
 
         try
@@ -42,7 +40,7 @@ public class LoginService(AppDbContext context) : ILoginService
             await context.Logins.AddAsync(login);
             await context.SaveChangesAsync();
         }
-        catch (DbUpdateException err) 
+        catch (DbUpdateException err)
             when (err.InnerException is PostgresException pgEx && pgEx.SqlState == "23505" && pgEx.Message.Contains("login_unique"))
         {
             var id = await GetIdByPhoneAsync(phone);

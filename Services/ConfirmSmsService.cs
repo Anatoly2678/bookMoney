@@ -2,7 +2,6 @@
 using BookMoney.Models;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace BookMoney.Services;
 
@@ -20,18 +19,10 @@ public class ConfirmSmsService(AppDbContext context) : IConfirmSmsService
         {
             LoginId = loginId,
             SmsCode = ConfirmSmsServiceExtensions.GenerateFourNumbers(),
-            //DateCreate = DateTime.UtcNow
         };
 
-        try
-        {
-            await context.ConfirmSms.AddAsync(sms);
-            await context.SaveChangesAsync();
-        }
-        catch (Exception err)
-        {
-            var stop = err;
-        }
+        await context.ConfirmSms.AddAsync(sms);
+        await context.SaveChangesAsync();
     }
 
     public async Task<UnitResult<string>> ConfirmAsync(Guid id)

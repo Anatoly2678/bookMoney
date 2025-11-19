@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookMoney.Models;
@@ -7,6 +8,7 @@ namespace BookMoney.Models;
 [Table("confirm_sms", Schema = "client")]
 public partial class ConfirmSmsDBModel
 {
+    [Key]
     [Column("id")]
     public Guid Id { get; set; }
 
@@ -23,5 +25,6 @@ public partial class ConfirmSmsDBModel
     public Guid LoginId { get; set; }
 
     [ForeignKey("LoginId")]
+    [InverseProperty("ConfirmSms")]
     public virtual LoginDBModel Login { get; set; } = null!;
 }

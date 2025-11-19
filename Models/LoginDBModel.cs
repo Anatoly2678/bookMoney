@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace BookMoney.Models;
 
@@ -23,4 +23,10 @@ public partial class LoginDBModel
 
     [Column("date_create")]
     public DateTime DateCreate { get; set; }
+
+    [InverseProperty("Login")]
+    public virtual ICollection<ConfirmSmsDBModel> ConfirmSms { get; set; } = new List<ConfirmSmsDBModel>();
+
+    [InverseProperty("Login")]
+    public virtual ICollection<ClientInfoDBModel> Infos { get; set; } = new List<ClientInfoDBModel>();
 }

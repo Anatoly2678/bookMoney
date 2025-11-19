@@ -7,13 +7,6 @@
 		<UserSecretsId>805a5b97-2c61-4b9f-9fa2-8ed49912471f</UserSecretsId>
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <Compile Remove="ModelsTemp\**" />
-	  <Content Remove="ModelsTemp\**" />
-	  <EmbeddedResource Remove="ModelsTemp\**" />
-	  <None Remove="ModelsTemp\**" />
-	</ItemGroup>
-
 	<!--<Target Name="NpmInstall" BeforeTargets="Build">
 		<Exec Command="npm install" />
 	</Target>-->
@@ -37,6 +30,10 @@
 	  <PackageReference Include="NLog" Version="6.0.5" />
 	  <PackageReference Include="NLog.Web.AspNetCore" Version="6.0.5" />
 	  <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="ModelsTemp\" />
 	</ItemGroup>
 
 </Project>

@@ -1,11 +1,9 @@
 using BookMoney.Data;
 using BookMoney.Services;
 using BookMoney.UseCases;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using NLog.Web;
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,7 +41,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
 builder.Services.AddScoped<ILoginService, LoginService>()
-    .AddScoped<IConfirmSmsService, ConfirmSmsService>();
+    .AddScoped<IConfirmSmsService, ConfirmSmsService>()
+    .AddScoped<IClientInfoService, ClientInfoService>();
 
 builder.Services.AddScoped<ClientStateService>();
 

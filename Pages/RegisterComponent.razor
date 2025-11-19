@@ -80,33 +80,9 @@
     private async Task HandleRegistration()
     {
         var login = await clientUseCase.AddPhoneNumberAsync(registrationModel.PhoneNumber);
+
         if(login.IsSuccess)
-        {
             _navigation.NavigateTo("/client-registration");
-        }
-        // var clientId = await _context.GetIdByPhoneAsync(registrationModel.PhoneNumber);
-
-        // if (clientId.HasNoValue)
-        // {
-        //     var result = await _context.AddLoginAsync(new Models.LoginDBModel
-        //         {
-        //             IsActive = false,
-        //             Login = registrationModel.PhoneNumber,
-        //             Password = "none",
-        //             DateCreate = DateTime.UtcNow
-        //         });
-        //     clientId = result!.Id;
-        // }
-
-
-        // if (clientId.HasValue)
-        // {
-        //     _clientState.SetClientId(clientId.Value);
-        //     _navigation.NavigateTo("/client-registration");
-        // // Здесь должна быть ваша логика регистрации
-        // // Например, отправка номера телефона для верификации
-        //  //   await JSRuntime.InvokeVoidAsync("alert", $"Регистрация для: {registrationModel.PhoneNumber}");
-        // }
     }
 
     public class RegistrationModel

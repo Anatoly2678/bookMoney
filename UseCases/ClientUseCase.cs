@@ -1,7 +1,5 @@
 ﻿using BookMoney.Services;
 using CSharpFunctionalExtensions;
-using Microsoft.EntityFrameworkCore;
-using static BookMoney.Pages.RegisterComponent;
 
 namespace BookMoney.UseCases;
 
@@ -10,7 +8,7 @@ public interface IClientUseCase
     Task<UnitResult<string>> AddPhoneNumberAsync(string phone);
 }
 
-public class ClientUseCase(ILoginService loginService, IConfirmSmsService confirmSmsService, ClientStateService clientStateService) : IClientUseCase // v
+public class ClientUseCase(ILoginService loginService, IConfirmSmsService confirmSmsService, IClientInfoService clientInfo, ClientStateService clientStateService) : IClientUseCase
 {
     public async Task<UnitResult<string>> AddPhoneNumberAsync(string phone)
     {
