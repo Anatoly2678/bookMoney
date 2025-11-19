@@ -18,7 +18,7 @@ public class ConfirmSmsService(AppDbContext context) : IConfirmSmsService
         var sms = new ConfirmSmsDBModel
         {
             LoginId = loginId,
-            SmsCode = ConfirmSmsServiceExtensions.GenerateFourNumbers(),
+            SmsCode = smsCode,
         };
 
         await context.ConfirmSms.AddAsync(sms);
@@ -35,21 +35,5 @@ public class ConfirmSmsService(AppDbContext context) : IConfirmSmsService
         await context.SaveChangesAsync();
 
         return UnitResult.Success<string>();
-    }
-}
-
-file static class ConfirmSmsServiceExtensions
-{
-    public static string GenerateFourNumbers()
-    {
-        Random random = new Random();
-        char[] digits = new char[4];
-
-        for (int i = 0; i < 4; i++)
-        {
-            digits[i] = (char)('0' + random.Next(0, 10));
-        }
-
-        return new string(digits);
     }
 }

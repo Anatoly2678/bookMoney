@@ -22,8 +22,24 @@ public class ClientUseCase(ILoginService loginService, IConfirmSmsService confir
         }
 
         clientStateService.SetClientId(clientId.Value);
-        await confirmSmsService.CreateAsync(clientId.Value, "12345");
+        await confirmSmsService.CreateAsync(clientId.Value, ConfirmSmsServiceExtensions.GenerateFourNumbers());
 
         return UnitResult.Success<string>();
+    }
+}
+
+file static class ConfirmSmsServiceExtensions
+{
+    public static string GenerateFourNumbers()
+    {
+        Random random = new Random();
+        char[] digits = new char[4];
+
+        for (int i = 0; i < 4; i++)
+        {
+            digits[i] = (char)('0' + random.Next(0, 10));
+        }
+
+        return new string(digits);
     }
 }
