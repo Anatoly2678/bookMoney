@@ -675,6 +675,7 @@
             PasswordHash = clientModel.Password, //???
             LoginId = clientId!.Value,
             EmailVerified = true,
+            CreatedAt = DateTime.UtcNow.ToUniversalTime()
             // Status = "new"
         });
         // Имитация отправки данных на сервер

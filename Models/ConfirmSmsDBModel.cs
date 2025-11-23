@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookMoney.Models;
 
-[Keyless]
+//[Keyless]
 [Table("confirm_sms", Schema = "client")]
 public partial class ConfirmSmsDBModel
 {
@@ -24,7 +24,7 @@ public partial class ConfirmSmsDBModel
     [Column("login_id")]
     public Guid LoginId { get; set; }
 
-    [ForeignKey("LoginId")]
-    [InverseProperty("ConfirmSms")]
-    public virtual LoginDBModel Login { get; set; } = null!;
+    //[ForeignKey("LoginId")]
+    //[InverseProperty("ConfirmSms")]
+    //public virtual LoginDBModel Login { get; set; } = null!;
 }

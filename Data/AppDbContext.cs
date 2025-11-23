@@ -31,9 +31,9 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.DateCreate).HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.Id).HasDefaultValueSql("gen_random_uuid()");
 
-            entity.HasOne(d => d.Login).WithMany()
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("confirm_sms_login_fk");
+            //entity.HasOne(d => d.Login).WithMany()
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("confirm_sms_login_fk");
         });
 
         modelBuilder.Entity<LoginDBModel>(entity =>
