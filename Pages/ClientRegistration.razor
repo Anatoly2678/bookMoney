@@ -8,6 +8,7 @@
 @inject IJSRuntime JSRuntime
 @inject ClientStateService _clientState;
 @inject NavigationManager _navigation;
+@inject IClientInfoService clientInfoService;
 
 @implements IDisposable
 
@@ -624,7 +625,7 @@
                 JSRuntime.InvokeVoidAsync("alert", "Пожалуйста, заполните все обязательные поля");
                 return false;
             }
-            
+
             if (clientModel.Password != clientModel.ConfirmPassword)
             {
                 JSRuntime.InvokeVoidAsync("alert", "Пароли не совпадают");
@@ -641,7 +642,7 @@
         //         return false;
         //     }
         // }
-        
+
         return true;
     }
 
@@ -652,10 +653,30 @@
             await JSRuntime.InvokeVoidAsync("alert", "Подтвердите согласие на обработку данных");
             return;
         }
-            
+
         isSubmitting = true;
         StateHasChanged();
 
+        await clientInfoService.CreateClientAsync(new Models.ClientInfoDBModel
+        {
+            AgreementAccepted = true,
+            BirthDate = DateOnly.FromDateTime(clientModel.BirthDate.GetValueOrDefault()),
+            BirthPlace = clientModel.BirthPlace,
+            DepartmentCode = clientModel.DepartmentCode,
+            Email = clientModel.Email,
+            FirstName = clientModel.FirstName,
+            LastName = clientModel.LastName,
+            IssueDate = clientModel.IssueDate.GetValueOrDefault(),
+            IssuedBy = clientModel.IssuedBy,
+            MiddleName = clientModel.MiddleName,
+            PassportNumber = clientModel.PassportNumber,
+            PassportSeries = clientModel.PassportSeries,
+            Snils = clientModel.SNILS,
+            PasswordHash = clientModel.Password, //???
+            LoginId = clientId!.Value,
+            EmailVerified = true,
+            // Status = "new"
+        });
         // Имитация отправки данных на сервер
         await Task.Delay(3000);
         

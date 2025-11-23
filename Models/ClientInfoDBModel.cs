@@ -77,7 +77,7 @@ public partial class ClientInfoDBModel
     public string IssuedBy { get; set; } = null!;
 
     [Column("issue_date")]
-    public DateOnly IssueDate { get; set; }
+    public DateTime IssueDate { get; set; }
 
     [Column("department_code")]
     [StringLength(10)]
