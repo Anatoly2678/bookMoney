@@ -396,9 +396,9 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="passportSeries" class="form-label fw-semibold">Серия паспорта *</label>
                                         <InputText @bind-Value="clientModel.PassportSeries" 
-                                                   class="form-control" 
+                                                   class="form-control"
                                                    id="passportSeries"
-                                                   placeholder="1234" 
+                                                   placeholder="1234" pattern="[0-9]*"
                                                    maxlength="4" />
                                         <ValidationMessage For="@(() => clientModel.PassportSeries)" />
                                     </div>
@@ -666,7 +666,7 @@
             Email = clientModel.Email,
             FirstName = clientModel.FirstName,
             LastName = clientModel.LastName,
-            IssueDate = clientModel.IssueDate.GetValueOrDefault(),
+            IssueDate = DateOnly.FromDateTime(clientModel.IssueDate.GetValueOrDefault()),
             IssuedBy = clientModel.IssuedBy,
             MiddleName = clientModel.MiddleName,
             PassportNumber = clientModel.PassportNumber,
@@ -675,7 +675,7 @@
             PasswordHash = clientModel.Password, //???
             LoginId = clientId!.Value,
             EmailVerified = true,
-            CreatedAt = DateTime.UtcNow.ToUniversalTime()
+            CreatedAt = DateTime.Now.ToUniversalTime()
             // Status = "new"
         });
         // Имитация отправки данных на сервер

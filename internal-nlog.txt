@@ -248,3 +248,13 @@
 2025-11-24 00:10:06.3451 Info Registered target NLog.Targets.ConsoleTarget(Name=logconsole)
 2025-11-24 00:10:06.3526 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.0.5.4631. Product version: 6.0.5+a023270f66a9445456a70c06668acabe7179c723. GlobalAssemblyCache: False
 2025-11-24 00:10:06.3765 Info Configuration initialized: TargetNames=allfile, ownFile-web, logconsole, ConfigItems=53, AutoReload=true, FilePath=C:\Projects\bookMoney\nlog.config
+2025-11-24 00:17:13.6708 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2025-11-24 00:17:13.8072 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2025-11-24 00:17:13.8072 Info Registered target NLog.Targets.ConsoleTarget(Name=logconsole)
+2025-11-24 00:17:13.8072 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.0.5.4631. Product version: 6.0.5+a023270f66a9445456a70c06668acabe7179c723. GlobalAssemblyCache: False
+2025-11-24 00:17:13.8315 Info Configuration initialized: TargetNames=allfile, ownFile-web, logconsole, ConfigItems=53, AutoReload=true, FilePath=C:\Projects\bookMoney\nlog.config
+2025-11-24 00:24:52.0612 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2025-11-24 00:24:52.2064 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2025-11-24 00:24:52.2085 Info Registered target NLog.Targets.ConsoleTarget(Name=logconsole)
+2025-11-24 00:24:52.2085 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.0.5.4631. Product version: 6.0.5+a023270f66a9445456a70c06668acabe7179c723. GlobalAssemblyCache: False
+2025-11-24 00:24:52.2336 Info Configuration initialized: TargetNames=allfile, ownFile-web, logconsole, ConfigItems=53, AutoReload=true, FilePath=C:\Projects\bookMoney\nlog.config
